@@ -21,9 +21,10 @@ export default function Homepage() {
   return (
     <>
     
-    <div className="pb-10 bg-gradient-to-r from-[#222222] to-[#3b3b3b]">
-    <nav className="pt-5 pb-7 flex justify-end pr-5">
-    <ShoppingCart className="w-10 h-10 text-[#eba10e] hover:text-black transition" />
+    <div className="pb-10 bg-[#F3CA52]">
+    <nav className="pt-5 pb-7 flex justify-end pr-5 bg-gradient-to-b from-[#F6E9B2] to-[#F3CA52]
+">
+    <ShoppingCart className="w-10 h-10 text-[#0A6847] hover:text-black transition" />
     </nav>
 
       <div className="relative m-auto w-[90%] max-w-2xl h-80 overflow-hidden rounded-xl shadow-lg bg-white p-8 flex items-start justify-center text-center">
