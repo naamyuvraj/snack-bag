@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Homepage from "./components/Homepage";
-import Snacks from "./components/cateogries/snacks"; // Fixed typo in folder name
-import Cart from "/src/components/Cart.jsx";
+import Snacks from "./components/cateogries/snacks"; 
+import Cart from "./components/cart.jsx";
 
 function App() {
   return (
