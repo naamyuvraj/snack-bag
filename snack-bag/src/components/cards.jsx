@@ -2,12 +2,14 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Cards() {
+  // const navigate = useNavigate();
   function Cateogry({ name, image, path }) {
     const navigate = useNavigate();
 
     return (
       <>
-        <div className="w-1/2 m-auto bg-gradient-to-b from-[#0A6847] to-[#7ABA78] border border-gray-200 rounded-2xl shadow-md inline-block p-4 text-center transition hover:shadow-md hover:scale-[1.02]">
+        <div className="w-1/2 m-auto bg-gradient-to-b from-[#0A6847] to-[#7ABA78] border border-gray-200 rounded-2xl shadow-md inline-block p-4 text-center transition hover:shadow-md hover:scale-[1.02]"
+        onClick={() => navigate( path)}>
           <a href="#">
             <img class="rounded-4xl " src={image} alt="" />
           </a>
@@ -20,7 +22,7 @@ export default function Cards() {
             <a
               href="#"
               className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#7ABA78] bg-[#F6E9B2] rounded-xl hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-              onClick={() => navigate( path)}
+              
             >
               Explore
             </a>
