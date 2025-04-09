@@ -34,7 +34,7 @@ export default function Cards() {
 
   return (
     <>
-      <div class="pt-10 w-[95%] m-auto max-w-7xl">
+      <div className="pt-10 w-[95%] m-auto max-w-7xl">
         <Cateogry
           name="SNACKS"
           image="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=1440/da/cms-assets/cms/product/a462e780-3f6f-47df-a451-1e63791d175b.jpg?ts=1740848082"
