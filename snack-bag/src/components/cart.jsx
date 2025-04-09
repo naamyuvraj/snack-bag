@@ -3,9 +3,11 @@ import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { FaRupeeSign } from "react-icons/fa";
 import { CiCirclePlus } from "react-icons/ci";
 import { CiCircleMinus } from "react-icons/ci";
+import { useNavigate } from "react-router-dom";
 
 function Cart() {
-  const colors = ["#F7CFD8", "#F4F8D3", "#A6D6D6", "#C4BBE0"];
+  const colors = ["#F7CFD8", "#F4F8D3", "#FFEDFA", "#C4BBE0" ,"#F1E7E7"];
+  const navigate = useNavigate()
 
   const orderDetails = [
     {
@@ -56,13 +58,12 @@ function Cart() {
   return (
     <div style={{ fontFamily: "Poppins, sans-serif" }}>
       {/* wrapper wala div */}
-      {/* 👇🏻 Added flex-col and h-screen to take full height */}
-      <div className="md:w-full w-[420px] rounded-xl bg-slate-100 mx-auto flex flex-col h-screen mt-4 pl-3 pr-3 mb-4" >
+      <div className="md:w-full w-[420px] rounded-xl bg-slate-100 mx-auto flex flex-col h-screen mt-4 pl-3 pr-3 mb-4 border border-white/40" >
         {/* top wala div for cart and back button */}
         <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-6">
 
           {/* back div */}
-          <div className="text-5xl">
+          <div className="text-5xl" onClick={()=> navigate("/")}>
             <button>
               <IoChevronBackCircleOutline />
             </button>
@@ -71,7 +72,7 @@ function Cart() {
           <div className="text-3xl mt-1">Cart</div>
         </div>
 
-        <div className="flex-grow overflow-y-auto h-120">
+        <div className="flex-grow overflow-y-auto h-150">
           {orderDetails.map((item, index) => {
             return (
               <div className="mt-2" key={index}>

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Cards from "./cards";
 import { ShoppingCart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 const slides = [
   "You are here ,because you are highly addicted to snacks.",
@@ -22,12 +24,15 @@ export default function Homepage() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
+      const navigate = useNavigate();
+  
 
   return (
     <>
       <div className="pb-10 bg-[#F3CA52]">
         <nav className="pt-5 pb-7 flex justify-end pr-5 bg-gradient-to-b from-[#F6E9B2] to-[#F3CA52]">
-          <ShoppingCart className="w-10 h-10 text-[#0A6847] hover:text-black transition" />
+          <ShoppingCart className="w-10 h-10 text-[#0A6847] hover:text-black transition"
+          onClick={()=>navigate("/Cart")} />
         </nav>
 
         <div className="relative m-auto w-[90%] max-w-2xl h-80 overflow-hidden rounded-xl shadow-lg bg-white p-8 flex items-start justify-center text-center">
