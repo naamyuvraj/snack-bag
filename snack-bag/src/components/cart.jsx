@@ -77,7 +77,7 @@ function Cart() {
             return (
               <div className="mt-2" key={index}>
                 <div
-                  className="flex rounded-lg justify-center items-center"
+                  className="flex rounded-3xl justify-center items-center p-2 "
                   style={{ backgroundColor: colors[index % colors.length] }}
                 >
                   {/* wrapper for one order */}
@@ -105,7 +105,7 @@ function Cart() {
                   </div>
 
                   {/* amount — right wala */}
-                  <div className="w-30 h-30 flex justify-center items-center">
+                  <div className="w-30 h-30 flex justify-center items-center p-4">
                     <div className="flex items-center space-x-2 bg-white pr-1 rounded-lg text-xl">
                       <FaRupeeSign />
                       <h2>{item.qty * item.price}</h2>
@@ -120,7 +120,7 @@ function Cart() {
           {/* amount wala div */}
         <div className="mt-3 bg-slate-200 rounded-lg p-4 mb-3 shadow-md ">
           {/* subtotal and total wala div ka wrapper */}
-          <div className="flex flex-row justify-between mb-2 h-8 p-2 border border-white">
+          <div className="flex flex-row justify-between mb-4 h-8 p-4 border border-white rounded-xl">
             <div className="flex items-center justify-center">Total Amount</div>
             <div className="flex items-center justify-center">{amountTopay}</div>
           </div>
