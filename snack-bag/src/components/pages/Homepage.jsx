@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Cards from "./cards";
+import Cards from "../cards";
 import { ShoppingCart,History } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 

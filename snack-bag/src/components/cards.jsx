@@ -57,7 +57,7 @@ export default function Cards() {
         <Cateogry
           name="BISCUITS"
           image="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=1440/da/cms-assets/cms/product/029f9c6c-bdfc-41c8-acc4-e72e39836470.jpg?ts=1738757886"
-          path="/chips"
+          path="/biscuits"
         />
       </div>
 
