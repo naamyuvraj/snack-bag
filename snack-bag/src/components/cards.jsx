@@ -11,9 +11,9 @@ export default function Cards() {
         <div className="w-1/2 m-auto bg-gradient-to-b from-[#0A6847] to-[#7ABA78] border border-gray-200 rounded-2xl shadow-md inline-block p-4 text-center transition hover:shadow-md hover:scale-[1.02]"
         onClick={() => navigate( path)}>
           <a href="#">
-            <img class="rounded-4xl " src={image} alt="" />
+            <img className="rounded-4xl " src={image} alt="" />
           </a>
-          <div class="p-5">
+          <div className="p-5">
             <a href="#">
               <h5 className="mb-2 text-2xl font-mono font-bold tracking-tight  text-[#F6E9B2]">
                 {name}
@@ -48,7 +48,7 @@ export default function Cards() {
         />
       </div>
 
-      <div class="pt-10 w-[95%] m-auto max-w-7xl">
+      <div className="pt-10 w-[95%] m-auto max-w-7xl">
         <Cateogry
           name="NAMKEENS"
           image="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=1440/app/assets/products/sliding_images/jpeg/1db82fc3-92a4-4174-9949-e82761f01514.jpg?ts=1708330362"
@@ -61,7 +61,7 @@ export default function Cards() {
         />
       </div>
 
-      <div class="pt-10 w-[95%] m-auto max-w-7xl">
+      <div className="pt-10 w-[95%] m-auto max-w-7xl">
         <Cateogry
           name="CHOCOLATES"
           image="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=1440/da/cms-assets/cms/product/5f0298fc-56e5-4b83-9bae-1b364a34c23f.jpg?ts=1742804517"
