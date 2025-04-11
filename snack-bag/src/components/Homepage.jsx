@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Cards from "./cards";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart,History } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 
@@ -30,10 +30,16 @@ export default function Homepage() {
   return (
     <>
       <div className="pb-10 bg-[#F3CA52]">
+        <div className="md:ml-220 ml-70 flex flex-row gap-5">
         <nav className="pt-5 pb-7 flex justify-end pr-5 bg-gradient-to-b from-[#F6E9B2] to-[#F3CA52]">
           <ShoppingCart className="w-10 h-10 text-[#0A6847] hover:text-black transition"
           onClick={()=>navigate("/Cart")} />
         </nav>
+        <nav className="pt-5 pb-7 flex justify-end pr-5 bg-gradient-to-b from-[#F6E9B2] to-[#F3CA52]">
+          <History className="w-10 h-10 text-[#0A6847] hover:text-black transition"
+          onClick={()=>navigate("/history")} />
+        </nav>
+        </div>
 
         <div className="relative m-auto w-[90%] max-w-2xl h-80 overflow-hidden rounded-xl shadow-lg bg-white p-8 flex items-start justify-center text-center">
           <div
