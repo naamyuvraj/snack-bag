@@ -88,7 +88,7 @@ function Cart() {
                     {/* left side wala photo */}
                     <div className="flex flex-col w-30 h-30 justify-between">
                       {/* name div */}
-                      <div className="text-xl text-[#ff6d6e] break-words">
+                      <div className="text-xl text-[#238b45] break-words">
                         {item.name}
                       </div>
                       {/* qty */}
@@ -125,7 +125,7 @@ function Cart() {
         </div>
 
         {/* amount wala div */}
-        <div className="mt-3 bg-[#ff6d6e] opacity-90 rounded-3xl p-4 mb-3 shadow-md border-2 border-[#ECD9BA]/90">
+        <div className="mt-3 bg-[#238b45] opacity-90 rounded-3xl p-4 mb-3 shadow-md border-2 border-[#ECD9BA]/90">
           {/* subtotal and total wala div ka wrapper */}
           <div className="flex flex-row justify-between mb-4 h-8 p-4 border border-[#ecd9ba] rounded-xl">
             <div className="flex items-center justify-center text-[#050505]">
@@ -138,8 +138,8 @@ function Cart() {
 
           {/* button ko center kara — proper way */}
           <div className="flex items-center justify-center w-full">
-            <div className=" text-white px-4 py-2 rounded-lg">
-              <select className="text-[#ECD9BA] bg-black border border-[#ECD9BA]/50 rounded-lg p-2 outline-none">
+            <div className=" text-white px- py-2 rounded-lg">
+              <select className="text-[#ECD9BA] bg-black border border-[#ECD9BA]/50 rounded-lg p-2 outline-none ">
                 <option disabled selected>
                   Proceed To Pay
                 </option>

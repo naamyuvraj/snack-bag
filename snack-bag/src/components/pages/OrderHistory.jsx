@@ -29,33 +29,30 @@ function OrderHistory() {
   return (
     <div
       style={{ fontFamily: "Poppins, sans-serif" }}
-      className="bg-gray-100 min-h-screen w-full"
+      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] min-h-screen w-full pb-10"
     >
       {/* upper div for header  */}
 
       {/* text wala div */}
-      <div className="pt-10 p-6 bg-gray-100 border-b-2 border-red-200 text-3xl mb-5">
-        <div className="">
-          <h1>Order History</h1>
-          <p className="text-[16px] pt-2">Showing all your order history</p>
-        </div>
+      <div className="pt-10 p-6 bg-gradient-to-r from-[#050505] to-[#3c3c3c] border-b-2 border-red-200 text-3xl mb-5">
+          <h1 className="text-[#ECD9BA]">Order History</h1>
       </div>
 
       {/* order cards mapping */}
       {orders.map((order) => (
         <div
           key={order.id}
-          className="flex flex-col bg-white p-6 m-4 border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition"
+          className="flex flex-col bg-[#ECD9BA] opacity-85 p-6 m-4 border border-gray-200 rounded-xl shadow-xl hover:shadow-md transition"
         >
           {/* product name and order id */}
-          <div className="flex justify-between items-start m-4 gap-5">
+          <div className="flex justify-between items-start m-4 gap-9">
             {/* product name */}
-            <div className="bg-gray-50 p-3 break-words w-[220px] h-[60px] overflow-y-auto rounded-md text-gray-700 text-sm shadow-inner">
+            <div className="bg-gray-50 p-3 shadow-md break-words w-[220px] h-[60px] overflow-y-auto rounded-xl text-gray-700 text-sm shadow-inner">
               <p>{order.productName}</p>
             </div>
 
             {/* order id */}
-            <div className="bg-gray-50 text-gray-700 p-3 w-[150px] rounded-md text-sm shadow-inner">
+            <div className="bg-gray-50  shadow-md text-gray-700 p-3 w-[150px] rounded-xl text-sm shadow-inner">
               {/* Static label */}
               <div className="text-xs text-gray-500 mb-1">Order ID</div>
 
@@ -67,20 +64,20 @@ function OrderHistory() {
           </div>
 
           {/* time and amount */}
-          <div className="flex justify-between items-center w-full bg-gray-50 p-3 rounded-md mb-3">
+          <div className="flex justify-between items-center w-full bg-gray-50 shadow-md p-2 rounded-xl mb-4">
             {/* time and date */}
             <div className="text-sm text-gray-600">{order.date}</div>
 
             {/* amount total */}
             <div className="bg-white text-gray-800 px-4 py-1 rounded-full text-sm font-medium shadow">
-            ₹{order.amount}
+              ₹{order.amount}
             </div>
           </div>
 
           {/* qr code and status */}
-          <div className="flex justify-between items-center w-full bg-gray-50 p-3 rounded-md">
+          <div className="flex justify-between items-center w-full bg-gray-50 shadow-md p-3 rounded-xl">
             {/* qr code */}
-            <div className="bg-white text-gray-800 px-4 py-1 rounded-full text-sm font-medium shadow cursor-pointer hover:bg-gray-100 transition">
+            <div className="bg-white text-gray-800 px-4 py-1 rounded-2xl text-sm font-medium shadow-md cursor-pointer hover:bg-gray-100 transition">
               QR Code
             </div>
 
@@ -97,6 +94,8 @@ function OrderHistory() {
           </div>
         </div>
       ))}
+                <p className="text-[16px] text-[#238b45] pt-2 mx-5">This is what you have all ordered</p>
+
     </div>
   );
 }

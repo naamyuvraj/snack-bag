@@ -35,7 +35,7 @@ export default function Homepage() {
           />
 
           <ShoppingCart
-            className="w-10 h-10 text-[#ff6d6e] hover:text-black transition"
+            className="w-10 h-10 text-[#238b45] hover:text-black transition"
             onClick={() => navigate("/Cart")}
           />
         </nav>
@@ -44,13 +44,13 @@ export default function Homepage() {
         <div className="mr-5">
           {" "}
           {/* thinking of personal name here */}
-          <h1 className="text-left text-5xl font-bold text-[#ff6d6e] ml-6">
+          <h1 className="text-left text-5xl font-bold text-[#238b45] ml-6">
             Yup,
           </h1>
           <h1 className="text-left text-5xl font-bold text-[#ECD9BA] ml-6">
             You are
           </h1>
-          <h1 className="text-left text-5xl font-bold text-[#ff6d6e] ml-6">
+          <h1 className="text-left text-5xl font-bold text-[#238b45] ml-6">
             Hungaryyyyy...
           </h1>
         </div>
@@ -94,20 +94,20 @@ export default function Homepage() {
             <div className="space-y-2 md:space-y-0 md:space-x-6 flex flex-col md:flex-row">
               <a
                 href="#about"
-                className="text-xl font-semibold hover:underline"
+                className="text-xl hover:underline"
               >
                 About Us
               </a>
               <a
                 href="#contact"
-                className="text-xl font-semibold hover:underline"
+                className="text-xl hover:underline"
               >
                 Contact Us
               </a>
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl font-bold">Snack Bag</h3>
-              <p className="text-sm">Made with ❤️ by Snack Bag Team</p>
+              <h3 className="text-2xl font-bold"><span className="text-[#238b45]">Snack</span> Bag</h3>
+              <p className="text-sm">Made with ❤️ by <span className="text-[#238b45]">Snack</span> Bag Team</p>
               <p className="text-sm">
                 &copy; 2025 Snack Bag. All rights reserved.
               </p>

@@ -9,7 +9,7 @@ export default function Cards() {
     return (
       <>
         <div
-          className="w-[46%] m-auto  backdrop-blur-sm  opacity-100 mx-2 border border-gray-200 rounded-2xl shadow-md inline-block p-3 px-5 text-center transition hover:shadow-md hover:scale-[1.02]"
+          className="w-[46%] m-auto bg-[#238b45] backdrop-blur-sm  opacity-100 mx-2 border border-gray-200 rounded-2xl shadow-md inline-block p-3 px-5 text-center transition hover:shadow-md hover:scale-[1.02]"
           onClick={() => navigate(path)}
         >
           <a href="#">
