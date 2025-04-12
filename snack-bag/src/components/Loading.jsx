@@ -44,7 +44,7 @@ export default function LoadingPage() {
               },
             }}
             transition={{
-              duration: 0.6,
+              duration: 0.2,
               repeat: Infinity,
               repeatType: "loop",
             }}
