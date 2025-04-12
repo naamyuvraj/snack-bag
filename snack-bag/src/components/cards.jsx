@@ -46,7 +46,7 @@ export default function Cards() {
         />
       </div>
 
-      <div className="pt-10 w-[95%] m-auto max-w-7xl">
+      <div className="pt-10 w-[95%] m-auto max-w-7xl flex justify-between">
         <Cateogry
           name="NAMKEENS"
           image="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=1440/app/assets/products/sliding_images/jpeg/1db82fc3-92a4-4174-9949-e82761f01514.jpg?ts=1708330362"
@@ -59,7 +59,7 @@ export default function Cards() {
         />
       </div>
 
-      <div className="pt-10 w-[95%] m-auto max-w-7xl">
+      <div className="pt-10 w-[95%] m-auto max-w-7xl flex justify-between">
         <Cateogry
           name="CHOCOLATES"
           image="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=1440/da/cms-assets/cms/product/5f0298fc-56e5-4b83-9bae-1b364a34c23f.jpg?ts=1742804517"
