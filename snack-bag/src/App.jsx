@@ -8,6 +8,8 @@ import Drinks from "./components/pages/drinks.jsx";
 import Namkeens from "./components/pages/namkeens.jsx"; 
 import Biscuits from "./components/pages/biscuits.jsx";
 import Noodles from "./components/pages/noodles.jsx";
+import User from "./components/pages/profile.jsx";
+
 function App() {
   return (
     <Routes>
@@ -20,6 +22,8 @@ function App() {
       <Route path="/namkeens" element={<Namkeens />} />
       <Route path="/biscuits" element={<Biscuits />} />
       <Route path="/noodles" element={<Noodles />} />
+      <Route path="/profile" element={<User />} />
+
     </Routes>
   );
 }

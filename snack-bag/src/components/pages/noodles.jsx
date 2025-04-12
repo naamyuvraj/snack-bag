@@ -38,7 +38,7 @@ export default function Noodles() {
 
   return (
     <>
-      <div className="pb-10 h-screen bg-[#F3CA52] pt-7">
+        <div className="pb-15 bg-gradient-to-r from-[#000000] to-[#3c3c3c] pt-7 h-screen">
         <div className="pt-10 w-[95%] m-auto max-w-7xl">
           {
             product.map((item,index)=>(
