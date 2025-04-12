@@ -58,7 +58,7 @@ function Cart() {
   return (
     <div style={{ fontFamily: "Poppins, sans-serif" }}>
       {/* wrapper wala div */}
-      <div className="md:w-full w-[420px] rounded-xl bg-slate-100 mx-auto flex flex-col h-screen mt-4 pl-3 pr-3 mb-4 border border-white/40" >
+      <div className="md:w-full w-[400px] rounded-xl bg-slate-100 mx-auto flex flex-col h-screen mt-4 pl-3 pr-3 mb-4 border border-white/40" >
         {/* top wala div for cart and back button */}
         <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-6">
 

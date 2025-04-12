@@ -2,6 +2,7 @@ import React from "react";
 import NewSnack from "../Newitem";
 import { supabase } from '../../supabaseClient';
 import { useState, useEffect } from "react";
+import LoadingPage from "../Loading";
 
 
 export default function Drinks() {
@@ -31,7 +32,7 @@ export default function Drinks() {
 
   // loading pge ka styling
   if (loading){
-    return <h1>Loading Data...</h1>
+    return <LoadingPage/>
   }
 
 

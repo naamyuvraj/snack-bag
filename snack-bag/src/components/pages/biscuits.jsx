@@ -2,6 +2,7 @@ import React from "react";
 import NewSnack from "../Newitem";
 import { supabase } from '../../supabaseClient';
 import { useState,useEffect } from "react";
+import LoadingPage from "../Loading";
 
 export default function Biscuits() {
   const [products, setProducts] = useState([]);
@@ -28,7 +29,7 @@ export default function Biscuits() {
   }, []);
 
   if (loading){
-    return <h1>Loading Data....</h1>
+    return <LoadingPage/>
   }
 
   return (
