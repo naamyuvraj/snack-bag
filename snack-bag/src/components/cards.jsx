@@ -8,7 +8,7 @@ export default function Cards() {
 
     return (
       <>
-        <div className="w-[46%] m-auto bg-[#ff6d6e] backdrop-blur- opacity-90 ml-4 border border-gray-200 rounded-2xl shadow-md inline-block p-3 text-center transition hover:shadow-md hover:scale-[1.02]"
+        <div className="w-[46%] m-auto bg-[#ECD9BA]] backdrop-blur-sm  opacity-100 ml-4 border border-gray-200 rounded-2xl shadow-md inline-block p-3 text-center transition hover:shadow-md hover:scale-[1.02]"
         onClick={() => navigate( path)}>
           <a href="#">
             <img className="rounded-4xl " src={image} alt="" />
