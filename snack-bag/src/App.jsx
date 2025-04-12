@@ -11,7 +11,7 @@ import Noodles from "./components/pages/noodles.jsx";
 import User from "./components/pages/profile.jsx";
 
 function App() {
-  return (
+  return ( 
     <Routes>
       <Route path="/" element={<Homepage />} />
       <Route path="/Cart" element={<Cart/>} />
