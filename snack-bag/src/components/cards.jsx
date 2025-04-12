@@ -8,24 +8,22 @@ export default function Cards() {
 
     return (
       <>
-        <div className="w-[46%] m-auto bg-[#ECD9BA]] backdrop-blur-sm  opacity-100 ml-4 border border-gray-200 rounded-2xl shadow-md inline-block p-3 text-center transition hover:shadow-md hover:scale-[1.02]"
-        onClick={() => navigate( path)}>
+        <div
+          className="w-[46%] m-auto bg-[#ECD9BA]] backdrop-blur-sm  opacity-100 ml-4 border border-gray-200 rounded-2xl shadow-md inline-block p-3 text-center transition hover:shadow-md hover:scale-[1.02]"
+          onClick={() => navigate(path)}
+        >
           <a href="#">
             <img className="rounded-4xl " src={image} alt="" />
           </a>
           <div className="p-5">
             <a href="#">
-            <h5 className=" text-2xl font-mono font-bold tracking-tight  text-[#ECD9BA]">
-            {name}
+              <h5 className=" text-2xl font-mono font-bold tracking-tight  text-[#ECD9BA]">
+                {name}
               </h5>
             </a>
-            <a
-              href="#"
-              className="text-sm font-medium text-[#ECD9BA] "
-              
-            >
+            <a href="#" className="text-sm font-medium text-[#ECD9BA] ">
               Explore →
-              </a>
+            </a>
           </div>
         </div>
       </>
@@ -34,7 +32,7 @@ export default function Cards() {
 
   return (
     <>
-      <div className="pt-10 w-[95%] m-auto max-w-7xl">
+      <div className="pt-10 w-[95%] m-auto max-w-7xl flex justify-between">
         <Cateogry
           name="SNACKS"
           image="https://cdn.grofers.com/cdn-cgi/image/f=auto,fit=scale-down,q=70,metadata=none,w=1440/da/cms-assets/cms/product/a462e780-3f6f-47df-a451-1e63791d175b.jpg?ts=1740848082"
