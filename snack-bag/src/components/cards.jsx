@@ -9,19 +9,19 @@ export default function Cards() {
     return (
       <>
         <div
-          className="w-[46%] m-auto  backdrop-blur-sm  opacity-100 mx-2 border border-gray-200 rounded-2xl shadow-md inline-block p-3 text-center transition hover:shadow-md hover:scale-[1.02]"
+          className="w-[46%] m-auto  backdrop-blur-sm  opacity-100 mx-2 border border-gray-200 rounded-2xl shadow-md inline-block p-3 px-5 text-center transition hover:shadow-md hover:scale-[1.02]"
           onClick={() => navigate(path)}
         >
           <a href="#">
             <img className="rounded-4xl " src={image} alt="" />
           </a>
           <div className="p-5">
-            <a href="#">
-              <h5 className="px-2 text-2xl font-mono font-bold tracking-tight  text-[#ECD9BA]">
+            <div className="w-full flex justify-center">
+              <h5 className="mx-auto text-center text-xl font-sans font-bold tracking-tight  text-[#ECD9BA] ">
                 {name}
               </h5>
-            </a>
-            <a href="#" className="text-sm font-medium text-[#ECD9BA] ">
+            </div>
+            <a href="#" className="text-[.6rem] font-medium text-[#ECD9BA] ">
               Explore →
             </a>
           </div>

@@ -27,7 +27,7 @@ export default function Homepage() {
 
   return (
     <>
-      <div className="pb-15 bg-gradient-to-r from-[#000000] to-[#3c3c3c] pt-7 w-full h-full ">
+      <div className=" bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full h-full " style={{ fontFamily: "Poppins, sans-serif" }}>
         <nav className="pb-7 flex justify-between px-6 items-center">
           <SquareUserRound
             className="w-10 h-10 text-[#ECD9BA] hover:text-black transition"
@@ -44,18 +44,17 @@ export default function Homepage() {
         <div className="mr-5">
           {" "}
           {/* thinking of personal name here */}
-          <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">
+          <h1 className="text-left text-5xl font-bold text-[#ff6d6e] ml-6">
             Yup,
           </h1>
-          <h1 className="text-left text-6xl font-bold text-[#ECD9BA] ml-6">
+          <h1 className="text-left text-5xl font-bold text-[#ECD9BA] ml-6">
             You are
           </h1>
-          <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">
+          <h1 className="text-left text-5xl font-bold text-[#ff6d6e] ml-6">
             Hungaryyyyy...
           </h1>
         </div>
 
-        <br />
         {/* <hr className="border-[#ECD9BA] w-[95%] m-auto" /> */}
         <br />
 
@@ -88,6 +87,33 @@ export default function Homepage() {
         <div className="mx-5">
           <Cards />
         </div>
+        <br />
+        <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
+        <footer className="bg-[#ff6d6e]] text-[#ECD9BA] py-8 mt- shadow-inner">
+          <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
+            <div className="space-y-2 md:space-y-0 md:space-x-6 flex flex-col md:flex-row">
+              <a
+                href="#about"
+                className="text-xl font-semibold hover:underline"
+              >
+                About Us
+              </a>
+              <a
+                href="#contact"
+                className="text-xl font-semibold hover:underline"
+              >
+                Contact Us
+              </a>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-bold">Snack Bag</h3>
+              <p className="text-sm">Made with ❤️ by Snack Bag Team</p>
+              <p className="text-sm">
+                &copy; 2025 Snack Bag. All rights reserved.
+              </p>
+            </div>
+          </div>
+        </footer>
       </div>
     </>
   );
