@@ -27,7 +27,7 @@ export default function Homepage() {
 
   return (
     <>
-      <div className="pb-15 bg-gradient-to-r from-[#000000] to-[#3c3c3c] pt-7">
+      <div className="pb-15 bg-gradient-to-r from-[#000000] to-[#3c3c3c] pt-7 w-full h-full ">
         <nav className="pb-7 flex justify-between px-6 items-center">
           <SquareUserRound
             className="w-10 h-10 text-[#ECD9BA] hover:text-black transition"
@@ -39,17 +39,22 @@ export default function Homepage() {
             onClick={() => navigate("/Cart")}
           />
         </nav>
-        <hr className="border-[#ECD9BA] w-[95%] m-auto border-1"  />
+        <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
         <br />
         {/* thinking of personal name here */}
-        <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">Yup, </h1>
-        <h1 className="text-left text-6xl font-bold text-[#ECD9BA] ml-6">You are</h1>
-        <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">Hungaryyyyy...</h1>
-        
+        <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">
+          Yup,{" "}
+        </h1>
+        <h1 className="text-left text-6xl font-bold text-[#ECD9BA] ml-6">
+          You are
+        </h1>
+        <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">
+          Hungaryyyyy...
+        </h1>
+
         <br />
         {/* <hr className="border-[#ECD9BA] w-[95%] m-auto" /> */}
         <br />
-
 
         <div className="relative m-auto w-[90%] max-w-2xl h-80 overflow-hidden rounded-xl shadow-lg bg-white p-8 flex items-start justify-center text-center">
           <div
