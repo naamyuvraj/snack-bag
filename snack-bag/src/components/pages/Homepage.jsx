@@ -41,16 +41,19 @@ export default function Homepage() {
         </nav>
         <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
         <br />
-        {/* thinking of personal name here */}
-        <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">
-          Yup,{" "}
-        </h1>
-        <h1 className="text-left text-6xl font-bold text-[#ECD9BA] ml-6">
-          You are
-        </h1>
-        <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">
-          Hungaryyyyy...
-        </h1>
+        <div className="mr-5">
+          {" "}
+          {/* thinking of personal name here */}
+          <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">
+            Yup,
+          </h1>
+          <h1 className="text-left text-6xl font-bold text-[#ECD9BA] ml-6">
+            You are
+          </h1>
+          <h1 className="text-left text-6xl font-bold text-[#ff6d6e] ml-6">
+            Hungaryyyyy...
+          </h1>
+        </div>
 
         <br />
         {/* <hr className="border-[#ECD9BA] w-[95%] m-auto" /> */}
@@ -82,8 +85,9 @@ export default function Homepage() {
             ))}
           </div>
         </div>
-
-        <Cards />
+        <div className="mx-5">
+          <Cards />
+        </div>
       </div>
     </>
   );
