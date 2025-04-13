@@ -9,7 +9,7 @@ import Namkeens from "./components/pages/namkeens.jsx";
 import Biscuits from "./components/pages/biscuits.jsx";
 import Noodles from "./components/pages/noodles.jsx";
 import User from "./components/pages/profile.jsx";
-import Login from "./components/login";
+import Login from "./components/pages/login.jsx";
 
 function App() {
   return ( 
