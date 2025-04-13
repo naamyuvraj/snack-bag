@@ -9,11 +9,13 @@ import Namkeens from "./components/pages/namkeens.jsx";
 import Biscuits from "./components/pages/biscuits.jsx";
 import Noodles from "./components/pages/noodles.jsx";
 import User from "./components/pages/profile.jsx";
+import Login from "./components/login";
 
 function App() {
   return ( 
     <Routes>
       <Route path="/" element={<Homepage />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/Cart" element={<Cart/>} />
       <Route path="/history" element={<OrderHistory />} />
       <Route path="/snacks" element={<Snacks />} />

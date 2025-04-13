@@ -16,6 +16,7 @@ const slides = [
 
 export default function Homepage() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const navigate = useNavigate(); // Ensure navigate is initialized
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -23,27 +24,32 @@ export default function Homepage() {
     }, 3000);
     return () => clearInterval(interval);
   }, []);
-  const navigate = useNavigate();
 
   return (
     <>
-      <div className=" bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full h-full " style={{ fontFamily: "Poppins, sans-serif" }}>
+      <div
+        className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full h-full"
+        style={{ fontFamily: "Poppins, sans-serif" }}
+      >
         <nav className="pb-7 flex justify-between px-6 items-center">
           <SquareUserRound
             className="w-10 h-10 text-[#ECD9BA] hover:text-black transition"
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/profile")} // Navigate to profile page
           />
-
+          <span
+            className="text-sm text-[#ECD9BA] hover:text-black transition cursor-pointer"
+            onClick={() => navigate("/login")} // Navigate to login page
+          >
+            Login
+          </span>
           <ShoppingCart
             className="w-10 h-10 text-[#238b45] hover:text-black transition"
-            onClick={() => navigate("/Cart")}
+            onClick={() => navigate("/cart")} // Navigate to cart page
           />
         </nav>
         <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
         <br />
         <div className="mr-5">
-          {" "}
-          {/* thinking of personal name here */}
           <h1 className="text-left text-5xl font-bold text-[#238b45] ml-6">
             Yup,
           </h1>
@@ -54,10 +60,7 @@ export default function Homepage() {
             Hungaryyyyy...
           </h1>
         </div>
-
-        {/* <hr className="border-[#ECD9BA] w-[95%] m-auto" /> */}
         <br />
-
         <div className="relative m-auto w-[90%] max-w-2xl h-80 overflow-hidden rounded-xl shadow-lg bg-white p-8 flex items-start justify-center text-center">
           <div
             className="flex transition-transform duration-500 ease-in-out"
@@ -92,25 +95,22 @@ export default function Homepage() {
         <footer className="bg-[#ff6d6e]] text-[#ECD9BA] py-8 mt- shadow-inner">
           <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
             <div className="space-y-2 md:space-y-0 md:space-x-6 flex flex-col md:flex-row">
-              <a
-                href="#about"
-                className="text-xl hover:underline"
-              >
+              <a href="#about" className="text-xl hover:underline">
                 About Us
               </a>
-              <a
-                href="#contact"
-                className="text-xl hover:underline"
-              >
+              <a href="#contact" className="text-xl hover:underline">
                 Contact Us
               </a>
             </div>
             <div className="space-y-2">
-              <h3 className="text-2xl font-bold"><span className="text-[#238b45]">Snack</span> Bag</h3>
-              <p className="text-sm">Made with ❤️ by <span className="text-[#238b45]">Snack</span> Bag Team</p>
+              <h3 className="text-2xl font-bold">
+                <span className="text-[#238b45]">Snack</span> Bag
+              </h3>
               <p className="text-sm">
-                &copy; 2025 Snack Bag. All rights reserved.
+                Made with ❤️ by <span className="text-[#238b45]">Snack</span>{" "}
+                Bag Team
               </p>
+              <p className="text-sm">&copy; 2025 Snack Bag. All rights reserved.</p>
             </div>
           </div>
         </footer>
