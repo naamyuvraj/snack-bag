@@ -3,6 +3,17 @@ import { serve } from "https://deno.land/std/http/server.ts";
 import Razorpay from "npm:razorpay";
 
 serve(async (req) => {
+  // Handle preflight (OPTIONS) request
+  if (req.method === "OPTIONS") {
+    return new Response("ok", {
+      headers: {
+        "Access-Control-Allow-Origin": "*", // Or your frontend domain
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type",
+      },
+    });
+  }
+
   try {
     const { amount, currency = "INR" } = await req.json();
 
@@ -18,11 +29,18 @@ serve(async (req) => {
     });
 
     return new Response(JSON.stringify(order), {
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // Or your frontend domain
+      },
     });
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
+      headers: {
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*", // Or your frontend domain
+      },
     });
   }
 });
