@@ -94,59 +94,77 @@ function Cart() {
   };
 
   const handlePayment = async () => {
-    const options = {
-      key: "rzp_test_NdIUXp3nJYVmif", // Replace with your Razorpay public key
-      amount: amountTopay * 100,
-      currency: "INR",
-      name: "Snack Bag",
-      description: "Order Payment",
-      image: "https://your-logo-url.com/logo.png",
-      handler: async function (response) {
-        alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
+    try {
+      const res = await fetch("https://ettqxkemkniooiqstkou.functions.supabase.co/create-order", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: amountTopay }),
+      });
   
-        // Save the order
-        const { error: orderError } = await supabase.from("orders_razorpay").insert([
-          {
-            user_id: "42ba3201-fb02-4cc5-8440-a963b3f4e44e", // Replace with actual user_id
-            amount: amountTopay,
-            payment_id: response.razorpay_payment_id,
-          },
-        ]);
+      const orderData = await res.json();
   
-        if (orderError) {
-          console.error("Failed to save order:", orderError);
-          return;
-        }
+      if (orderData.error) throw new Error(orderData.error);
   
-        // ✅ Clear cart after successful order save
-        const { error: clearCartError } = await supabase
-          .from("carts")
-          .delete()
-          .eq("user_id", "da64fb2b-6e4f-48cf-b63c-b345fdeb448c"); // Replace with dynamic user_id if using auth
+      const options = {
+        key: "rzp_test_NdIUXp3nJYVmif", // safe to expose public key
+        amount: orderData.amount,
+        currency: orderData.currency,
+        name: "Snack Bag",
+        description: "Order Payment",
+        order_id: orderData.id,
+        handler: async function (response) {
+          alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
   
-        if (clearCartError) {
-          console.error("Failed to clear cart:", clearCartError);
-        } else {
-          alert("Order placed and cart cleared!");
-          setCartItems([]);
-          setAmountToPay(0);
-          navigate("/");
-        }
-      },
-      prefill: {
-        name: "Yuvraj Mandal",
-        email: "test@yuvraj.dev",
-        contact: "9000090000",
-      },
-      theme: {
-        color: "#238b45",
-      },
-    };
+          // Save order details to Supabase
+          const { error: orderError } = await supabase.from("orders_razorpay").insert([
+            {
+              user_id: "42ba3201-fb02-4cc5-8440-a963b3f4e44e",
+              amount: amountTopay,
+              payment_id: response.razorpay_payment_id,
+              order_id: response.razorpay_order_id,
+            },
+          ]);
   
-    const rzp = new window.Razorpay(options);
-    rzp.open();
+          if (orderError) {
+            console.error("Failed to save order:", orderError);
+            return;
+          }
+  
+          // Clear cart
+          const { error: clearCartError } = await supabase
+            .from("carts")
+            .delete()
+            .eq("user_id", "da64fb2b-6e4f-48cf-b63c-b345fdeb448c");
+  
+          if (clearCartError) {
+            console.error("Failed to clear cart:", clearCartError);
+          } else {
+            alert("Order placed and cart cleared!");
+            setCartItems([]);
+            setAmountToPay(0);
+            navigate("/");
+          }
+        },
+        prefill: {
+          name: "Yuvraj Mandal",
+          email: "test@yuvraj.dev",
+          contact: "9000090000",
+        },
+        theme: {
+          color: "#238b45",
+        },
+      };
+  
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+    } catch (err) {
+      console.error("Payment error:", err.message);
+      alert("Something went wrong during payment. Please try again.");
+    }
   };
-  
+    
   if (loading) return <h1>Loading...</h1>;
 
   return (
