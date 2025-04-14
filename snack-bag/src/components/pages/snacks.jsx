@@ -42,7 +42,7 @@ export default function Snacks() {
               name={item.name}
               image={item.image_url}
               price={item.selling_price}
-              user_id="aae8c61c-1ce4-4a1e-95b1-f2b80d665c51" // 👈 replace with your actual/fake user_id
+              user_id="da64fb2b-6e4f-48cf-b63c-b345fdeb448c" // 👈 replace with your actual/fake user_id
             />
           ))}
         </div>

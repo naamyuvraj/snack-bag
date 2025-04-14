@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Cards from "../cards";
 import { ShoppingCart, SquareUserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import Famous from "./Famous";
 
 const slides = [
   "You are here ,because you are highly addicted to snacks.",

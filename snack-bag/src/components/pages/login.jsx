@@ -32,7 +32,6 @@ function Login() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // Check uniqueness only in sign up mode
   useEffect(() => {
     async function checkUnique() {
       if (!formData.email || !formData.phone) {
@@ -101,6 +100,7 @@ function Login() {
       }
 
       const hashedPassword = await bcrypt.hash(formData.password, 10);
+
       const { data: authData, error: authError } = await supabase.auth.signUp(
         {
           email: formData.email,
@@ -108,32 +108,30 @@ function Login() {
         },
         { emailRedirectTo: `${window.location.origin}/login` }
       );
-      
+
       if (authError) {
         alert('Error signing up: ' + authError.message);
         return;
       }
-      
-      // Redirect to login page manually after sign-up
-      window.location.href = '/login';
 
-      // Insert user data into 'users' table after successful sign-up
-      const { data: userData, error: userError } = await supabase
-        .from('users')
-        .insert([
-          {
-            id: authData.user.id, // User's ID from the Auth table
-            name: formData.name,
-            email: formData.email,
-            phone_number: formData.phone,
-            room_number: formData.roomNumber,
-            password: hashedPassword, // Store hashed password
-          }
-        ]);
+      if (authData?.user?.id) {
+        const { data: userData, error: userError } = await supabase
+          .from('users')
+          .insert([
+            {
+              id: authData.user.id,
+              name: formData.name,
+              email: formData.email,
+              phone_number: formData.phone,
+              room_number: formData.roomNumber,
+              password: hashedPassword
+            }
+          ]);
 
-      if (userError) {
-        alert('Error saving user details: ' + userError.message);
-        return;
+        if (userError) {
+          alert('Error saving user details: ' + userError.message);
+          return;
+        }
       }
 
       alert('Magic link sent! Please verify your email. After verification, sign in to complete registration.');
@@ -150,7 +148,6 @@ function Login() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
-        {/* Logo and Header */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-4 rounded-full shadow-lg">
@@ -161,7 +158,6 @@ function Login() {
           <p className="text-gray-600 mt-2 text-lg">Quick snacks, delivered faster</p>
         </div>
 
-        {/* Auth Card */}
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden transform transition-all hover:shadow-2xl">
           <div className="flex">
             <button
@@ -190,7 +186,6 @@ function Login() {
             <form onSubmit={handleSubmit}>
               {!isLogin && (
                 <>
-                  {/* Name Field */}
                   <div className="mb-5">
                     <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">
                       Full Name
@@ -212,7 +207,6 @@ function Login() {
                     </div>
                   </div>
 
-                  {/* Room Number */}
                   <div className="mb-5">
                     <label htmlFor="roomNumber" className="block text-sm font-semibold text-gray-700 mb-1">
                       Room Number
@@ -236,7 +230,6 @@ function Login() {
                 </>
               )}
 
-              {/* Phone Number */}
               <div className="mb-5">
                 <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-1">
                   Phone Number
@@ -258,15 +251,12 @@ function Login() {
                 </div>
               </div>
 
-              {/* Email */}
               <div className="mb-5">
                 <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1">
                   Email
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500">
-                    📧
-                  </span>
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500">📧</span>
                   <input
                     type="email"
                     id="email"
@@ -280,7 +270,6 @@ function Login() {
                 </div>
               </div>
 
-              {/* Password */}
               <div className="mb-8">
                 <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1">
                   Password
@@ -308,7 +297,6 @@ function Login() {
                 </div>
               </div>
 
-              {/* Submit Button */}
               <button
                 type="submit"
                 className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition duration-300 flex items-center justify-center"
@@ -319,7 +307,6 @@ function Login() {
               </button>
             </form>
 
-            {/* Prompt Message */}
             {promptMessage && (
               <p className="text-sm text-red-500 mt-4 text-center">{promptMessage}</p>
             )}
