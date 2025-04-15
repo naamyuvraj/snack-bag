@@ -146,7 +146,7 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-r from-[#050505] to-[#3c3c3c] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
@@ -154,18 +154,20 @@ function Login() {
               <ShoppingBag className="text-white" size={28} />
             </div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-800">Snack Bag</h1>
-          <p className="text-gray-600 mt-2 text-lg">Quick snacks, delivered faster</p>
+          <h1 className="text-4xl font-bold text-[#ECD9BA]">
+            <span className="text-[#238b45]">Snack</span> Bag
+          </h1>
+          <p className="text-gray-300 mt-2 text-lg">Quick snacks, delivered faster</p>
         </div>
 
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden transform transition-all hover:shadow-2xl">
+        <div className="bg-[#3c3c3c]-900 rounded-3xl shadow-2xl overflow-hidden transform transition-all hover:shadow-2xl">
           <div className="flex">
             <button
               onClick={() => setIsLogin(true)}
               className={`flex-1 py-5 text-center font-semibold text-lg transition-colors duration-300 ${
                 isLogin
-                  ? 'text-orange-500 border-b-4 border-orange-500 bg-orange-50'
-                  : 'text-gray-500 hover:bg-gray-50'
+                  ? 'text-[#238b45] border-b-4 border-[#238b45] bg-[#ECD9BA]'
+                  : 'text-[#238b45] hover:bg-gray-50'
               }`}
             >
               Sign In
@@ -174,9 +176,9 @@ function Login() {
               onClick={() => setIsLogin(false)}
               className={`flex-1 py-5 text-center font-semibold text-lg transition-colors duration-300 ${
                 !isLogin
-                  ? 'text-orange-500 border-b-4 border-orange-500 bg-orange-50'
-                  : 'text-gray-500 hover:bg-gray-50'
-              }`}
+                ? 'text-[#238b45] border-b-4 border-[#238b45] bg-[#ECD9BA]'
+                : 'text-[#238b45] hover:bg-gray-50'
+            }`}
             >
               Sign Up
             </button>
@@ -187,11 +189,11 @@ function Login() {
               {!isLogin && (
                 <>
                   <div className="mb-5">
-                    <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label htmlFor="name" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                       Full Name
                     </label>
                     <div className="relative">
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500">
+                      <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-[gray-500]">
                         <User size={20} />
                       </span>
                       <input
@@ -200,7 +202,7 @@ function Login() {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full py-4 pl-12 pr-4 text-gray-700 bg-gray-50 rounded-xl border border-gray-200"
+                        className="w-full py-4 pl-12 pr-4 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
                         placeholder="John Doe"
                         required
                       />
@@ -208,7 +210,7 @@ function Login() {
                   </div>
 
                   <div className="mb-5">
-                    <label htmlFor="roomNumber" className="block text-sm font-semibold text-gray-700 mb-1">
+                    <label htmlFor="roomNumber" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                       Room Number
                     </label>
                     <div className="relative">
@@ -221,7 +223,7 @@ function Login() {
                         name="roomNumber"
                         value={formData.roomNumber}
                         onChange={handleChange}
-                        className="w-full py-4 pl-12 pr-4 text-gray-700 bg-gray-50 rounded-xl border border-gray-200"
+                        className="w-full py-4 pl-12 pr-4 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
                         placeholder="101"
                         required
                       />
@@ -231,7 +233,7 @@ function Login() {
               )}
 
               <div className="mb-5">
-                <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-1">
+                <label htmlFor="phone" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                   Phone Number
                 </label>
                 <div className="relative">
@@ -244,7 +246,7 @@ function Login() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full py-4 pl-12 pr-4 text-gray-700 bg-gray-50 rounded-xl border border-gray-200"
+                    className="w-full py-4 pl-12 pr-4 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
                     placeholder="9876543210"
                     required
                   />
@@ -252,7 +254,7 @@ function Login() {
               </div>
 
               <div className="mb-5">
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-1">
+                <label htmlFor="email" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                   Email
                 </label>
                 <div className="relative">
@@ -263,7 +265,7 @@ function Login() {
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full py-4 pl-12 pr-4 text-gray-700 bg-gray-50 rounded-xl border border-gray-200"
+                    className="w-full py-4 pl-12 pr-4 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
                     placeholder="email@example.com"
                     required
                   />
@@ -271,7 +273,7 @@ function Login() {
               </div>
 
               <div className="mb-8">
-                <label htmlFor="password" className="block text-sm font-semibold text-gray-700 mb-1">
+                <label htmlFor="password" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                   Password
                 </label>
                 <div className="relative">
@@ -284,7 +286,7 @@ function Login() {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full py-4 pl-12 pr-12 text-gray-700 bg-gray-50 rounded-xl border border-gray-200"
+                    className="w-full py-4 pl-12 pr-12 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
                     placeholder="********"
                     required
                   />
@@ -299,7 +301,7 @@ function Login() {
 
               <button
                 type="submit"
-                className="w-full py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition duration-300 flex items-center justify-center"
+                className="w-full py-4 bg-[#ECD9BA] hover:bg-orange-600 text-[#238b45] font-bold rounded-xl transition duration-300 flex items-center justify-center"
                 disabled={!isLogin && signupDisabled}
               >
                 {isLogin ? 'Sign In' : 'Sign Up'}

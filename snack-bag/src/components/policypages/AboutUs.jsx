@@ -7,21 +7,21 @@ export default function AboutUs() {
     {
       name: "Yuvraj",
       role: "Co-Founder & Full-Stack Developer",
-      img: "/team/yuvraj.jpg",
+      img: "./assets/yuvraj.jpeg",
       instagram: "https://www.instagram.com/naam.yuvraj/",
       linkedin: "https://www.linkedin.com/in/yuvraj-mandal-b4ab85325/",
     },
     {
       name: "Sumit Nayak",
       role: "Co-Founder & Full-Stack Developer",
-      img: "/team/sumit.jpg",
+      img: "./assets/sumit.jpeg",
       instagram: "https://www.instagram.com/sum_it.2006/",
       linkedin: "https://www.linkedin.com/in/sumitnayak2006/",
     },
     {
       name: "Dev Kumar Singh",
-      role: "Marketing",
-      img: "/team/dev.jpg",
+      role: "Marketing and Management",
+      img: "./assets/dev.jpeg",
       instagram: "https://www.instagram.com/dev_singh.invincible/",
       linkedin: "https://www.linkedin.com/in/dev-kumar-singh-1451aa270/",
     },
@@ -32,10 +32,10 @@ export default function AboutUs() {
       className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full min-h-screen"
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
-      <h1 className="text-center text-2xl text-[#238b45] font-semibold mt-10">
+      <h1 className="text-center text-2xl text-[#238b45] font-semibold mt-7 mb-3">
         About Us
       </h1>
-      <hr className="border-1 border-[#238b45] mx-auto mt-3 w-1/2" />
+      <hr className="border-1 border-[#238b45] mx-auto mt-3 " />
 
       <div className="text-[#ECD9BA] text-lg mt-6 mx-10 space-y-4 max-w-4xl mx-4">
         <p>
@@ -64,7 +64,7 @@ export default function AboutUs() {
             <img
               src={member.img}
               alt={member.name}
-              className="w-40 h-40 mx-auto rounded-full object-cover mb-4 border-4 border-[#238b45]"
+              className="w-45 h-50 mx-auto rounded-full object-cover mb-4 border-4 border-[#238b45]"
             />
             <h3 className="text-xl text-[#238b45] font-semibold">
               {member.name}
