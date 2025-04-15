@@ -20,7 +20,7 @@ export default function Footer() {
           <span className="cursor-pointer hover:underline" onClick={() => navigate("/terms")}>
             Terms & Conditions
           </span>
-          <span className="cursor-pointer hover:underline" onClick={() => navigate("/privacy")}>
+          <span className="cursor-pointer hover:underline" onClick={() => navigate("/policy")}>
             Privacy Policy
           </span>
           <span className="cursor-pointer hover:underline" onClick={() => navigate("/cancellation")}>
