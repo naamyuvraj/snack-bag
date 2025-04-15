@@ -30,35 +30,34 @@ export default function Homepage() {
   return (
     <>
       <div
-        className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full h-full"
+        className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-5 w-full h-full"
         style={{ fontFamily: "Poppins, sans-serif" }}
       >
-        <nav className="pb-7 flex justify-between px-6 items-center">
+        <nav className="pb-5 flex justify-between px-6 items-center">
           <SquareUserRound
             className="w-10 h-10 text-[#ECD9BA] hover:text-black transition"
-            onClick={() => navigate("/profile")} // Navigate to profile page
+            onClick={() => navigate("/profile")} 
           />
-          <span
-            className="text-sm text-[#ECD9BA] hover:text-black transition cursor-pointer"
-            onClick={() => navigate("/login")} // Navigate to login page
-          >
-            Login
-          </span>
+          <div className="text-3xl text-[#ECD9BA] font-semibold ml-[-10]">
+            <h1 className="text-4xl font-bold text-[#ECD9BA]">
+              <span className="text-[#238b45]">Snack</span> Bag
+            </h1>
+          </div>
           <ShoppingCart
             className="w-10 h-10 text-[#238b45] hover:text-black transition"
-            onClick={() => navigate("/cart")} // Navigate to cart page
+            onClick={() => navigate("/cart")} 
           />
         </nav>
         <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
         <br />
         <div className="mr-5">
-          <h1 className="text-left text-5xl font-bold text-[#238b45] ml-6">
+          <h1 className="text-left text-4xl font-semibold text-[#238b45] ml-6">
             Yup,
           </h1>
-          <h1 className="text-left text-5xl font-bold text-[#ECD9BA] ml-6">
+          <h1 className="text-left text-5xl font-semibold text-[#ECD9BA] ml-6">
             You are
           </h1>
-          <h1 className="text-left text-5xl font-bold text-[#238b45] ml-6">
+          <h1 className="text-left text-5xl font-semibold text-[#238b45] ml-6">
             Hungaryyyyy...
           </h1>
         </div>
