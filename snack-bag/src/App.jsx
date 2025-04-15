@@ -10,7 +10,11 @@ import Biscuits from "./components/pages/biscuits.jsx";
 import Noodles from "./components/pages/noodles.jsx";
 import User from "./components/pages/profile.jsx";
 import Login from "./components/pages/login.jsx";
-
+import Cancellation from "./components/policypages/cancellation.jsx";
+import PrivacyPolicy from "./components/policypages/PrivacyPolicy.jsx";
+import TermsAndCond from "./components/policypages/t&c.jsx";
+import AboutUs from "./components/policypages/AboutUs.jsx";
+import ContactUs from "./components/policypages/ContactUs.jsx";
 function App() {
   return ( 
     <Routes>
@@ -25,7 +29,11 @@ function App() {
       <Route path="/biscuits" element={<Biscuits />} />
       <Route path="/noodles" element={<Noodles />} />
       <Route path="/profile" element={<User />} />
-
+      <Route path="/cancellation" element={<Cancellation />} />
+      <Route path="/policy" element={<PrivacyPolicy />} />
+      <Route path="/terms" element={<TermsAndCond />} />
+      <Route path="/about" element={<AboutUs />} />
+      <Route path="/contact" element={<ContactUs />} />
     </Routes>
   );
 }

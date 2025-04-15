@@ -3,6 +3,7 @@ import Cards from "../cards";
 import { ShoppingCart, SquareUserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Famous from "./Famous";
+import Footer from "./footer";
 
 const slides = [
   "You are here ,because you are highly addicted to snacks.",
@@ -92,29 +93,8 @@ export default function Homepage() {
           <Cards />
         </div>
         <br />
-        <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
-        <footer className="bg-[#ff6d6e]] text-[#ECD9BA] py-8 mt- shadow-inner">
-          <div className="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
-            <div className="space-y-2 md:space-y-0 md:space-x-6 flex flex-col md:flex-row">
-              <a href="#about" className="text-xl hover:underline">
-                About Us
-              </a>
-              <a href="#contact" className="text-xl hover:underline">
-                Contact Us
-              </a>
-            </div>
-            <div className="space-y-2">
-              <h3 className="text-2xl font-bold">
-                <span className="text-[#238b45]">Snack</span> Bag
-              </h3>
-              <p className="text-sm">
-                Made with ❤️ by <span className="text-[#238b45]">Snack</span>{" "}
-                Bag Team
-              </p>
-              <p className="text-sm">&copy; 2025 Snack Bag. All rights reserved.</p>
-            </div>
-          </div>
-        </footer>
+
+        <Footer />
       </div>
     </>
   );
