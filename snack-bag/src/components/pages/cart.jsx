@@ -123,7 +123,7 @@ function Cart() {
               user_id: "42ba3201-fb02-4cc5-8440-a963b3f4e44e",
               amount: amountTopay,
               payment_id: response.razorpay_payment_id,
-              order_id: response.razorpay_order_id,
+              // order_id: response.razorpay_order_id,
             },
           ]);
   
