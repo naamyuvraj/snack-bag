@@ -3,8 +3,8 @@ import { Plus, Minus } from "lucide-react";
 import { supabase } from "../supabaseClient";
 
 export default function NewSnack({ id, name, image, price, user_id }) {
-  const [quantity, setQuantity] = useState(0); // Cart quantity
-  const [stock, setStock] = useState(0); // Product quantity from DB
+  const [quantity, setQuantity] = useState(0);
+  const [stock, setStock] = useState(0);
   const [lowStock, setLowStock] = useState(false);
 
   useEffect(() => {
@@ -19,11 +19,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
       .eq("id", id)
       .single();
 
-    if (error) {
-      console.error("Error fetching product stock:", error.message);
-    } else {
-      setStock(data.quantity);
-    }
+    if (!error) setStock(data.quantity);
   };
 
   const fetchQuantity = async () => {
@@ -34,12 +30,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
       .eq("product_id", id)
       .single();
 
-    if (error) {
-      console.error("Error fetching cart quantity:", error.message);
-      setQuantity(0);
-    } else {
-      setQuantity(data.quantity);
-    }
+    setQuantity(error ? 0 : data.quantity);
   };
 
   const handleAddToCart = async () => {
@@ -54,10 +45,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
       .eq("product_id", id)
       .single();
 
-    if (fetchError && fetchError.code !== "PGRST116") {
-      console.error("Error checking cart:", fetchError);
-      return;
-    }
+    if (fetchError && fetchError.code !== "PGRST116") return;
 
     if (existing) {
       await supabase
@@ -80,23 +68,22 @@ export default function NewSnack({ id, name, image, price, user_id }) {
 
   const handleIncrement = async () => {
     if (quantity >= stock) return;
-
-    const newQuantity = quantity + 1;
-    setQuantity(newQuantity);
+    const newQty = quantity + 1;
+    setQuantity(newQty);
 
     await supabase
       .from("carts")
-      .update({ quantity: newQuantity })
+      .update({ quantity: newQty })
       .eq("user_id", user_id)
       .eq("product_id", id);
 
-    checkLowStock(newQuantity);
+    checkLowStock(newQty);
   };
 
   const handleDecrement = async () => {
-    const newQuantity = quantity - 1;
+    const newQty = quantity - 1;
 
-    if (newQuantity <= 0) {
+    if (newQty <= 0) {
       setQuantity(0);
       await supabase
         .from("carts")
@@ -104,79 +91,85 @@ export default function NewSnack({ id, name, image, price, user_id }) {
         .eq("user_id", user_id)
         .eq("product_id", id);
     } else {
-      setQuantity(newQuantity);
+      setQuantity(newQty);
       await supabase
         .from("carts")
-        .update({ quantity: newQuantity })
+        .update({ quantity: newQty })
         .eq("user_id", user_id)
         .eq("product_id", id);
     }
 
-    checkLowStock(newQuantity);
+    checkLowStock(newQty);
   };
 
   const checkLowStock = (qty) => {
-    if (stock - qty <= 2) {
-      setLowStock(true);
-    } else {
-      setLowStock(false);
-    }
+    setLowStock(stock - qty <= 2);
   };
 
   return (
-    <div className="w-[46%] m-auto bg-[#ff6d6e] backdrop-blur opacity-90 ml-4 border border-gray-200 rounded-2xl shadow-md inline-block p-3 text-center transition hover:shadow-md hover:scale-[1.02]">
+    <div
+      className="w-[46] sm:w-[46%] md:w-[30%] lg:w-[23%] bg-[#238b45] backdrop-blur-sm opacity-100 border border-gray-200 rounded-2xl shadow-md p-3 px-5 text-center transition hover:shadow-md hover:scale-[1.02]"
+      style={{ fontFamily: "Poppins, sans-serif" }}
+    >
       <img
-        className="rounded-xl w-full object-cover h-48"
+        className="rounded-xl w-full h-40 object-cover"
         src={image}
         alt={name}
       />
 
-      <div className="p-3">
-        <h5 className="mb-2 text-2xl font-mono font-bold tracking-tight text-[#ECD9BA]">
+      <div className="w-full flex justify-center mt-1">
+        <h5 className="text-xl font-semibold/ tracking-tight text-[#ECD9BA]">
           {name}
         </h5>
+      </div>
 
-        <h5 className="bg-white rounded-2xl m-3 text-xl font-mono font-bold tracking-tight text-[#635b3a]">
+      <div className="w-full flex justify-between items-center mt-">
+        <h5 className="text-xl font-semibold tracking-tight text-[#3c3c3c] ml-3">
           ₹ {price}
         </h5>
 
+        <div className="mt-3">
+          {stock > 0 && quantity === 0 ? (
+            <button
+              onClick={handleAddToCart}
+              className="inline-flex items-center gap-2 px-2 py-1 text-lg font-medium text-[#ECD9BA] bg-[#ECD9BA]] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+            >
+              Add
+            </button>
+          ) : quantity > 0 ? (
+            <div className="flex items-center justify-center gap-3">
+              <button
+                onClick={handleDecrement}
+                className="bg-[#F6E9B2] text-[#7ABA78] rounded-lg p-2 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              >
+                <Minus className="w-4 h-4" />
+              </button>
+              <span className="text-md font-medium text-[#F6E9B2]">
+                {quantity}
+              </span>
+              <button
+                onClick={handleIncrement}
+                disabled={quantity >= stock}
+                className={`bg-[#F6E9B2] text-[#7ABA78] rounded-lg p-2 ${
+                  quantity >= stock
+                    ? "opacity-50 cursor-not-allowed"
+                    : "hover:bg-blue-800"
+                } focus:ring-4 focus:outline-none focus:ring-blue-300`}
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            </div>
+          ) : null}
+        </div>
+      </div>
+      <div className="flex justify-center mt-2">
         {lowStock && stock > 0 && (
-          <p className="text-yellow-200 text-sm mb-2">
-            Hurry! Only {stock - quantity} left in stock.
+          <p className="text-yellow-200 text-sm">
+            Hurry! Only {stock - quantity} left
           </p>
         )}
-
-        {stock === 0 ? (
-          <p className="text-red-300 font-semibold">Out of stock</p>
-        ) : quantity === 0 ? (
-          <button
-            onClick={handleAddToCart}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-[#7ABA78] bg-[#ECD9BA] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-          >
-            <Plus className="w-4 h-4" />
-            Add to Cart
-          </button>
-        ) : (
-          <div className="flex items-center justify-center gap-3">
-            <button
-              onClick={handleDecrement}
-              className="bg-[#F6E9B2] text-[#7ABA78] rounded-lg p-2 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
-            >
-              <Minus className="w-4 h-4" />
-            </button>
-            <span className="text-md font-medium text-[#F6E9B2]">
-              {quantity}
-            </span>
-            <button
-              onClick={handleIncrement}
-              disabled={quantity >= stock}
-              className={`bg-[#F6E9B2] text-[#7ABA78] rounded-lg p-2 ${
-                quantity >= stock ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-800"
-              } focus:ring-4 focus:outline-none focus:ring-blue-300`}
-            >
-              <Plus className="w-4 h-4" />
-            </button>
-          </div>
+        {stock === 0 && (
+          <p className="text-red-300 font-semibold text-sm">Out of stock</p>
         )}
       </div>
     </div>

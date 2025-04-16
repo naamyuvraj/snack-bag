@@ -33,20 +33,20 @@ export default function Snacks() {
 
   return (
     <>
-      <div className="pb-15 bg-gradient-to-r from-[#000000] to-[#3c3c3c] pt-7 min-h-screen">
-        <div className="pt-10 w-[95%] m-auto max-w-7xl flex flex-wrap gap-4 justify-center">
-          {products.map((item) => (
-            <NewSnack
-              key={item.id}
-              id={item.id} // 👈 product_id
-              name={item.name}
-              image={item.image_url}
-              price={item.selling_price}
-              user_id="da64fb2b-6e4f-48cf-b63c-b345fdeb448c" // 👈 replace with your actual/fake user_id
-            />
-          ))}
-        </div>
-      </div>
+<div className="pb-15 bg-gradient-to-r from-[#000000] to-[#3c3c3c] pt-7 min-h-screen">
+  <div className="pt-10 w-[95%] m-auto max-w-7xl grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 justify-items-center">
+    {products.map((item) => (
+      <NewSnack
+        key={item.id}
+        id={item.id}
+        name={item.name}
+        image={item.image_url}
+        price={item.selling_price}
+        user_id="da64fb2b-6e4f-48cf-b63c-b345fdeb448c"
+      />
+    ))}
+  </div>
+</div>
     </>
   );
-  }
+}
