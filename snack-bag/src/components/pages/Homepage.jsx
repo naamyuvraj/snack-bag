@@ -4,6 +4,7 @@ import { ShoppingCart, SquareUserRound } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Famous from "./Famous";
 import Footer from "./footer";
+import Banner from "./banner";
 
 const slides = [
   "You are here ,because you are highly addicted to snacks.",
@@ -61,6 +62,7 @@ export default function Homepage() {
             Hungaryyyyy...
           </h1>
         </div>
+        <Banner />
         <br />
         <div className="relative m-auto w-[90%] max-w-2xl h-80 overflow-hidden rounded-xl shadow-lg bg-white p-8 flex items-start justify-center text-center">
           <div

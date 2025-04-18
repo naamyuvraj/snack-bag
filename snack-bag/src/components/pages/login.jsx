@@ -68,9 +68,12 @@ function Login() {
         setVerifiedUser(session.user);
       }
     });
-    return () => authListener.unsubscribe();
+  
+    return () => {
+      authListener?.subscription?.unsubscribe(); // ✅ Corrected
+    };
   }, []);
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
