@@ -4,15 +4,19 @@ import { FaRupeeSign } from "react-icons/fa";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
+import  useUser  from "../../useUser"; // Adjust the import path as necessary
 
 function Cart() {
   const navigate = useNavigate();
+  const  user  = useUser();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [amountTopay, setAmountToPay] = useState(0);
 
   useEffect(() => {
     const fetchCartItems = async () => {
+      if (!user) return;
+
       setLoading(true);
       try {
         const { data, error } = await supabase
@@ -29,7 +33,8 @@ function Cart() {
               quantity
             )
           `
-          );
+          )
+          .eq("user_id", user.id); // filter by logged-in user
 
         if (error) {
           console.error("Error fetching cart items:", error);
@@ -48,7 +53,7 @@ function Cart() {
     };
 
     fetchCartItems();
-  }, []);
+  }, [user]);
 
   const updateQuantity = async (cartId, newQuantity, maxQuantity) => {
     if (newQuantity < 1) {
@@ -94,6 +99,8 @@ function Cart() {
   };
 
   const handlePayment = async () => {
+    if (!user) return;
+
     try {
       const res = await fetch("https://ettqxkemkniooiqstkou.functions.supabase.co/create-order", {
         method: "POST",
@@ -102,13 +109,13 @@ function Cart() {
         },
         body: JSON.stringify({ amount: amountTopay }),
       });
-  
+
       const orderData = await res.json();
-  
+
       if (orderData.error) throw new Error(orderData.error);
-  
+
       const options = {
-        key: "rzp_test_NdIUXp3nJYVmif", // safe to expose public key
+        key: "rzp_test_NdIUXp3nJYVmif",
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Snack Bag",
@@ -116,28 +123,25 @@ function Cart() {
         order_id: orderData.id,
         handler: async function (response) {
           alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
-  
-          // Save order details to Supabase
+
           const { error: orderError } = await supabase.from("orders_razorpay").insert([
             {
-              user_id: "42ba3201-fb02-4cc5-8440-a963b3f4e44e",
+              user_id: user.id,
               amount: amountTopay,
               payment_id: response.razorpay_payment_id,
-              // order_id: response.razorpay_order_id,
             },
           ]);
-  
+
           if (orderError) {
             console.error("Failed to save order:", orderError);
             return;
           }
-  
-          // Clear cart
+
           const { error: clearCartError } = await supabase
             .from("carts")
             .delete()
-            .eq("user_id", "da64fb2b-6e4f-48cf-b63c-b345fdeb448c");
-  
+            .eq("user_id", user.id);
+
           if (clearCartError) {
             console.error("Failed to clear cart:", clearCartError);
           } else {
@@ -156,7 +160,7 @@ function Cart() {
           color: "#238b45",
         },
       };
-  
+
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
@@ -164,7 +168,7 @@ function Cart() {
       alert("Something went wrong during payment. Please try again.");
     }
   };
-    
+
   if (loading) return <h1>Loading...</h1>;
 
   return (

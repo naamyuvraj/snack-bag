@@ -3,11 +3,12 @@ import NewSnack from "../Newitem";
 import { supabase } from "../../supabaseClient";
 import { useState, useEffect } from "react";
 import LoadingPage from "../Loading";
+import  useUser  from "../../useUser"; // Adjust the import path as necessary
 
 export default function Noodles() {
   const [product, setProduct] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const user = useUser();
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -42,7 +43,7 @@ export default function Noodles() {
               name={item.name}
               image={item.image_url}
               price={item.selling_price}
-              user_id="aae8c61c-1ce4-4a1e-95b1-f2b80d665c51" // 👈 replace with your actual/fake user_id
+              user_id={user?.id}
             />
           ))}
         </div>
