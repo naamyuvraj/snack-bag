@@ -27,11 +27,14 @@ serve(async (req) => {
       currency,
       receipt: `receipt_${Date.now()}`,
     });
-
+    console.log("Created Razorpay order:", order);
+    console.log("Razorpay order ID:");
     return new Response(JSON.stringify(order), {
       headers: {
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // Or your frontend domain
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization", // Or your frontend domain
       },
     });
   } catch (err) {

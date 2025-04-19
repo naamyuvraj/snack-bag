@@ -4,15 +4,17 @@ import { FaRupeeSign } from "react-icons/fa";
 import { CiCirclePlus, CiCircleMinus } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
-import  useUser  from "../../useUser"; // Adjust the import path as necessary
+import useUser from "../../useUser";
 
 function Cart() {
   const navigate = useNavigate();
-  const  user  = useUser();
+  const user = useUser();
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [amountTopay, setAmountToPay] = useState(0);
+  const [profile, setProfile] = useState(null);
 
+  // Fetch cart items
   useEffect(() => {
     const fetchCartItems = async () => {
       if (!user) return;
@@ -34,7 +36,7 @@ function Cart() {
             )
           `
           )
-          .eq("user_id", user.id); // filter by logged-in user
+          .eq("user_id", user.id);
 
         if (error) {
           console.error("Error fetching cart items:", error);
@@ -53,6 +55,27 @@ function Cart() {
     };
 
     fetchCartItems();
+  }, [user]);
+
+  // Fetch user profile from `users` table
+  useEffect(() => {
+    const fetchUserProfile = async () => {
+      if (!user) return;
+
+      const { data, error } = await supabase
+        .from("users")
+        .select("name, email, phone_number")
+        .eq("id", user.id)
+        .single();
+
+      if (error) {
+        console.error("Error fetching user profile:", error);
+      } else {
+        setProfile(data);
+      }
+    };
+
+    fetchUserProfile();
   }, [user]);
 
   const updateQuantity = async (cartId, newQuantity, maxQuantity) => {
@@ -100,20 +123,25 @@ function Cart() {
 
   const handlePayment = async () => {
     if (!user) return;
-
+  
+    const { data: sessionData } = await supabase.auth.getSession();
+    const accessToken = sessionData?.session?.access_token;
+  
     try {
-      const res = await fetch("https://ettqxkemkniooiqstkou.functions.supabase.co/create-order", {
+      const res = await fetch("https://ettqxkemkniooiqstkou.supabase.co/functions/v1/create-order", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`, // ✅ Add this line
         },
-        body: JSON.stringify({ amount: amountTopay }),
+        body: JSON.stringify({ amount: amountTopay * 100 }),
       });
-
+  
       const orderData = await res.json();
-
+      console.log("Amount from backend:", orderData.amount);
+  
       if (orderData.error) throw new Error(orderData.error);
-
+  
       const options = {
         key: "rzp_live_alNgd3kLZw4sM0",
         amount: orderData.amount,
@@ -123,25 +151,26 @@ function Cart() {
         order_id: orderData.id,
         handler: async function (response) {
           alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
-
+  
           const { error: orderError } = await supabase.from("orders_razorpay").insert([
             {
               user_id: user.id,
               amount: amountTopay,
               payment_id: response.razorpay_payment_id,
+              user_name: profile?.name,
             },
           ]);
-
+  
           if (orderError) {
             console.error("Failed to save order:", orderError);
             return;
           }
-
+  
           const { error: clearCartError } = await supabase
             .from("carts")
             .delete()
             .eq("user_id", user.id);
-
+  
           if (clearCartError) {
             console.error("Failed to clear cart:", clearCartError);
           } else {
@@ -152,15 +181,15 @@ function Cart() {
           }
         },
         prefill: {
-          name: "Yuvraj Mandal",
-          email: "test@yuvraj.dev",
-          contact: "9000090000",
+          name: profile?.name || "Customer",
+          email: profile?.email || "email@example.com",
+          contact: profile?.phone_number || "9000090000",
         },
         theme: {
           color: "#238b45",
         },
       };
-
+  
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
@@ -168,7 +197,7 @@ function Cart() {
       alert("Something went wrong during payment. Please try again.");
     }
   };
-
+    
   if (loading) return <h1>Loading...</h1>;
 
   return (
@@ -206,9 +235,7 @@ function Cart() {
                         >
                           <CiCirclePlus />
                         </button>
-                        <span className="text-xl text-[#ECD9BA]">
-                          {item.quantity}
-                        </span>
+                        <span className="text-xl text-[#ECD9BA]">{item.quantity}</span>
                         <button
                           className="text-4xl text-[#ECD9BA]"
                           onClick={() =>
