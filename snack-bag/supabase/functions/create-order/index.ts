@@ -24,7 +24,7 @@ serve(async (req) => {
     });
 
     const order = await razorpay.orders.create({
-      amount: amount * 100, // convert to paise
+      amount: amount , // convert to paise
       currency,
       receipt: `receipt_${Date.now()}`,
     });
