@@ -108,7 +108,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
 
   return (
     <div
-      className="w-[46] sm:w-[46%] md:w-[30%] lg:w-[23%] bg-[#238b45] backdrop-blur-sm opacity-100 border border-gray-200 rounded-2xl shadow-md p-3 px-5 text-center transition hover:shadow-md hover:scale-[1.02]"
+      className="w-[46%] sm:w-[46%] md:w-[30%] lg:w-[23%] bg-[#238b45] backdrop-blur-sm opacity-100 border border-gray-200 rounded-2xl shadow-md p-3 px-5 text-center transition hover:shadow-md hover:scale-[1.02]"
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
       <img
