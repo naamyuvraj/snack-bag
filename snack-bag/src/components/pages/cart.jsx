@@ -115,7 +115,7 @@ function Cart() {
       if (orderData.error) throw new Error(orderData.error);
 
       const options = {
-        key: "rzp_test_NdIUXp3nJYVmif",
+        key: "rzp_live_alNgd3kLZw4sM0",
         amount: orderData.amount,
         currency: orderData.currency,
         name: "Snack Bag",
