@@ -3,15 +3,16 @@ import { serve } from "https://deno.land/std/http/server.ts";
 import Razorpay from "npm:razorpay";
 
 serve(async (req) => {
+  const headers = {
+    "Access-Control-Allow-Origin": "*", // Replace with 'https://snack-bag.vercel.app' for tighter security
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type, Authorization",
+    "Content-Type": "application/json",
+  };
+
   // Handle preflight (OPTIONS) request
   if (req.method === "OPTIONS") {
-    return new Response("ok", {
-      headers: {
-        "Access-Control-Allow-Origin": "*", // Or your frontend domain
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type",
-      },
-    });
+    return new Response("ok", { headers });
   }
 
   try {
@@ -27,23 +28,14 @@ serve(async (req) => {
       currency,
       receipt: `receipt_${Date.now()}`,
     });
+
     console.log("Created Razorpay order:", order);
-    console.log("Razorpay order ID:");
-    return new Response(JSON.stringify(order), {
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "POST, OPTIONS",
-        "Access-Control-Allow-Headers": "Content-Type, Authorization", // Or your frontend domain
-      },
-    });
+
+    return new Response(JSON.stringify(order), { headers });
   } catch (err) {
     return new Response(JSON.stringify({ error: err.message }), {
       status: 500,
-      headers: {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin": "*", // Or your frontend domain
-      },
+      headers,
     });
   }
 });
