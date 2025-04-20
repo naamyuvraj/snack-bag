@@ -10,63 +10,62 @@ export default function User() {
   const user = useUser();
   const [userInfo, setUserInfo] = useState(null);
 
-  // Handle redirection if the user is not logged in
+  // Redirect if user is not logged in
   useEffect(() => {
-    if (user === undefined) {
-      // Still loading, don't redirect yet
-      return;
-    }
-
+    if (user === undefined) return; // still loading
     if (user === null) {
-      console.log("No user, redirecting to /login...");
       navigate("/login");
     }
   }, [user, navigate]);
 
-  // Fetch user info from the database
+  // Fetch user info
   useEffect(() => {
     const fetchUserInfo = async () => {
       if (!user?.id) return;
-
       const { data, error } = await supabase
         .from("users")
         .select("*")
         .eq("id", user.id)
         .single();
-
-      if (error) {
-        console.error("Error fetching user info:", error);
-      } else {
-        setUserInfo(data);
-      }
+      if (!error) setUserInfo(data);
+      else console.error(error);
     };
-
     fetchUserInfo();
   }, [user]);
 
-  // Handle loading state for user info
+  // Logout handler
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/login");
+  };
+
+  // Single handler for login/logout button
+  const handleAuthAction = () => {
+    if (user) handleLogout();
+    else navigate("/login");
+  };
+
   if (user === undefined) {
-    return <div>Loading...</div>;  // Show loading indicator while user data is fetched
+    return <div className="text-center pt-20">Loading...</div>;
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#000000] to-[#3c3c3c] py-10 px-5 font-[Poppins,sans-serif]">
-      <div className="flex flex-row justify-between md:w-1/2 w-[230px]  mb-4">
-        <div className="text-5xl text-[#ECD9BA]" onClick={() => navigate("/")}>
-          <button>
-            <IoChevronBackCircleOutline />
-          </button>
-        </div>
+      {/* Header */}
+      <div className="flex justify-between md:w-1/2 w-[230px] mb-4">
+        <button className="text-5xl text-[#ECD9BA]" onClick={() => navigate("/")}>
+          <IoChevronBackCircleOutline />
+        </button>
         <div className="text-3xl mt-1 text-[#ECD9BA]">My Profile</div>
       </div>
 
-      <hr className="border-1 border-[#ECD9BA] mx-auto mb-7 w-[95%]" />
+      <hr className="border-[#ECD9BA] mx-auto mb-7 w-[95%]" />
 
-      {/* User Info Section */}
+      {/* User Info */}
       <div className="bg-[#1f1f1f] rounded-2xl shadow-lg p-5 flex items-center gap-9 max-w-xl mx-auto mb-10 hover:scale-[1.01] transition">
         <CircleUserRound className="text-[#238b45] w-20 h-20" />
         <div>
-\          <p className="text-lg text-[#238b45] font-medium">
+          <p className="text-lg text-[#238b45] font-medium">
             {userInfo?.name || "Guest"}
           </p>
           <p className="text-sm text-[#ECD9BA]">Room: {userInfo?.room_number}</p>
@@ -76,7 +75,7 @@ export default function User() {
 
       {/* Navigation Links */}
       <div
-        className="bg-[#1f1f1f] rounded-2xl shadow-md p-4 cursor-pointer hover:bg-[#2c2c2c] transition max-w-xl mx-auto flex items-center justify-between group"
+        className="bg-[#1f1f1f] rounded-2xl shadow-md p-4 mb-4 cursor-pointer hover:bg-[#2c2c2c] transition max-w-xl mx-auto flex items-center justify-between group"
         onClick={() => navigate("/history")}
       >
         <h3 className="text-xl text-[#ECD9BA] font-semibold group-hover:text-[#ff6d6e]">
@@ -86,9 +85,9 @@ export default function User() {
           →
         </span>
       </div>
-      <br />
+
       <div
-        className="bg-[#1f1f1f] rounded-2xl shadow-md p-4 cursor-pointer hover:bg-[#2c2c2c] transition max-w-xl mx-auto flex items-center justify-between group"
+        className="bg-[#1f1f1f] rounded-2xl shadow-md p-4 mb-6 cursor-pointer hover:bg-[#2c2c2c] transition max-w-xl mx-auto flex items-center justify-between group"
         onClick={() => navigate("/contact")}
       >
         <h3 className="text-xl text-[#ECD9BA] font-semibold group-hover:text-[#ff6d6e]">
@@ -96,6 +95,19 @@ export default function User() {
         </h3>
         <span className="text-[#238b45] font-bold text-2xl group-hover:translate-x-1 transition-transform">
           →
+        </span>
+      </div>
+
+      {/* Login / Logout */}
+      <div
+        className="bg-[#1f1f1f] rounded-2xl shadow-md p-4 cursor-pointer hover:bg-[#2c2c2c] transition max-w-xl mx-auto flex items-center justify-between group"
+        onClick={handleAuthAction}
+      >
+        <h3 className="text-xl text-[#ECD9BA] font-semibold group-hover:text-[#ff6d6e]">
+          {user ? "Logout" : "Login"}
+        </h3>
+        <span className="text-[#238b45] font-bold text-2xl group-hover:translate-x-1 transition-transform">
+          {user ? "⎋" : "→"}
         </span>
       </div>
     </div>

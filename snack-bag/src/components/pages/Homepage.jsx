@@ -6,9 +6,11 @@ import Famous from "./Famous";
 import Footer from "./footer";
 import Banner from "./banner";
 
-const slides = [
-  
-  "https://www.youtube.com/watch?v=iUIZcZceZf0",
+const slides = ["https://www.youtube.com/embed/iUIZcZceZf0",
+  "https://www.youtube.com/embed/1SIq_mvvs2s",
+  "https://www.youtube.com/embed/kpHBxLqkikw",
+  "https://www.youtube.com/embed/zQBhJD8CYm0"
+
 ];
 
 export default function Homepage() {
@@ -67,14 +69,18 @@ export default function Homepage() {
                 key={index}
                 className="min-w-full h-80 flex-shrink-0 flex items-center justify-center"
               >
-                <video
-                  src={videoUrl}
-                  className="w-full h-full object-cover rounded-xl"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                />
+                <iframe
+                  className="w-full h-full rounded-xl"
+                  src={
+                    videoUrl +
+                    "?autoplay=1&mute=1&controls=0&loop=1&playlist=" +
+                    videoUrl.split("/").pop()
+                  }
+                  title={`YouTube video ${index + 1}`}
+                  frameBorder="0"
+                  allow="autoplay; encrypted-media"
+                  allowFullScreen
+                ></iframe>
               </div>
             ))}
           </div>

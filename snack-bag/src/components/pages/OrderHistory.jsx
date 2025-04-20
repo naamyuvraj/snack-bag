@@ -70,7 +70,7 @@ export default function OrderHistory() {
     >
       
       <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-4">
-        <div className="text-5xl text-[#ECD9BA] px-5" onClick={() => navigate("/")}>
+        <div className="text-5xl text-[#ECD9BA] px-5" onClick={() => navigate("/profile")}>
           <button>
             <IoChevronBackCircleOutline />
           </button>

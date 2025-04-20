@@ -30,8 +30,10 @@ export default function AboutUs() {
   return (
     <div
       className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full min-h-screen"
+
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
+      
       <h1 className="text-center text-2xl text-[#238b45] font-semibold mt-7 mb-3">
         About Us
       </h1>
