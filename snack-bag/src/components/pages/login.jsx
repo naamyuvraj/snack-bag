@@ -23,134 +23,129 @@ function Login() {
     password: '',
     name: '',
     roomNumber: '',
-    otp: ''
   });
-  const [verifiedUser, setVerifiedUser] = useState(null);
+  const [userSession, setUserSession] = useState(null);
 
+  // Keep formData in sync
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((f) => ({ ...f, [name]: value }));
   };
 
+  // 1️⃣ Fetch existing session on mount
   useEffect(() => {
-    async function checkUnique() {
-      if (!formData.email || !formData.phone) {
-        setSignupDisabled(true);
-        setPromptMessage('');
-        return;
-      }
-
-      const { data: phoneData } = await supabase
-        .from('users')
-        .select('*')
-        .eq('phone_number', formData.phone);
-      const { data: emailData } = await supabase
-        .from('users')
-        .select('*')
-        .eq('email', formData.email);
-
-      if ((phoneData && phoneData.length > 0) || (emailData && emailData.length > 0)) {
-        setSignupDisabled(true);
-        setPromptMessage('A user with the provided email or phone number already exists.');
-      } else {
-        setSignupDisabled(false);
-        setPromptMessage('');
-      }
-    }
-    if (!isLogin) {
-      checkUnique();
-    }
-  }, [formData.email, formData.phone, isLogin]);
-
-  useEffect(() => {
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session?.user?.email_confirmed_at) {
-        setVerifiedUser(session.user);
-      }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUserSession(session?.user ?? null);
     });
-  
+  }, []);
+
+  // 2️⃣ Listen for sign-in / sign-out events
+  useEffect(() => {
+    const { data: listener } = supabase.auth.onAuthStateChange(
+      (_event, session) => {
+        setUserSession(session?.user ?? null);
+        if (_event === 'SIGNED_IN') {
+          window.location.href = '/'; // redirect after login
+        }
+      }
+    );
     return () => {
-      authListener?.subscription?.unsubscribe(); // ✅ Corrected
+      listener.subscription.unsubscribe();
     };
   }, []);
-  
+
+  // 3️⃣ Enable/disable signup button by checking uniqueness
+  useEffect(() => {
+    if (isLogin) return setSignupDisabled(true);
+
+    async function checkUnique() {
+      if (!formData.email || !formData.phone) {
+        setPromptMessage('');
+        return setSignupDisabled(true);
+      }
+      const [{ data: p }, { data: e }] = await Promise.all([
+        supabase.from('users').select('id').eq('phone_number', formData.phone),
+        supabase.from('users').select('id').eq('email', formData.email),
+      ]);
+      if ((p?.length) || (e?.length)) {
+        setPromptMessage(
+          'A user with that email or phone already exists.'
+        );
+        setSignupDisabled(true);
+      } else {
+        setPromptMessage('');
+        setSignupDisabled(false);
+      }
+    }
+    checkUnique();
+  }, [formData.email, formData.phone, isLogin]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (isLogin) {
-      const { data, error } = await supabase
+      // 4️⃣ Sign-in flow: lookup user by phone, verify bcrypt, then call supabase.auth.signInWithPassword
+      const { data: users, error: userErr } = await supabase
         .from('users')
-        .select('*')
+        .select('email, password')
         .eq('phone_number', formData.phone);
 
-      if (error || !data || data.length === 0) {
-        alert('Invalid credentials!');
-        return;
+      if (userErr || !users?.length) {
+        return alert('Invalid credentials!');
+      }
+      const [user] = users;
+      const match = await bcrypt.compare(formData.password, user.password);
+      if (!match) {
+        return alert('Invalid credentials!');
       }
 
-      const user = data[0];
-      const isMatch = await bcrypt.compare(formData.password, user.password);
-      if (isMatch) {
-        alert('Logged in successfully!');
-        window.location.href = '/';
-      } else {
-        alert('Invalid credentials!');
+      const { error: authErr } = await supabase.auth.signInWithPassword({
+        email: user.email,
+        password: formData.password,
+      });
+      if (authErr) {
+        return alert('Login error: ' + authErr.message);
       }
-    } else {
-      if (signupDisabled) {
-        alert(promptMessage);
-        return;
-      }
-
-      const hashedPassword = await bcrypt.hash(formData.password, 10);
-
-      const { data: authData, error: authError } = await supabase.auth.signUp(
-        {
-          email: formData.email,
-          password: formData.password
-        },
-        { emailRedirectTo: `${window.location.origin}/login` }
-      );
-
-      if (authError) {
-        alert('Error signing up: ' + authError.message);
-        return;
-      }
-
-      if (authData?.user?.id) {
-        const { data: userData, error: userError } = await supabase
-          .from('users')
-          .insert([
-            {
-              id: authData.user.id,
-              name: formData.name,
-              email: formData.email,
-              phone_number: formData.phone,
-              room_number: formData.roomNumber,
-              password: hashedPassword
-            }
-          ]);
-
-        if (userError) {
-          alert('Error saving user details: ' + userError.message);
-          return;
-        }
-      }
-
-      alert('Magic link sent! Please verify your email. After verification, sign in to complete registration.');
-      setIsLogin(true);
+      // onAuthStateChange will handle redirect
+      alert('Logged in successfully!');
+      return;
     }
-  };
 
-  const toggleForm = () => {
-    setIsLogin(!isLogin);
-    setPromptMessage('');
-    setSignupDisabled(true);
+    // 5️⃣ Sign-up flow
+    if (signupDisabled) {
+      return alert(promptMessage);
+    }
+    const hashed = await bcrypt.hash(formData.password, 10);
+    const { data: signupData, error: signupErr } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+    }, {
+      emailRedirectTo: `${window.location.origin}/login`
+    });
+    if (signupErr) {
+      return alert('Sign-up error: ' + signupErr.message);
+    }
+    // Insert the rest of the profile into your users table
+    await supabase
+      .from('users')
+      .insert([{
+        id: signupData.user.id,
+        name: formData.name,
+        email: formData.email,
+        phone_number: formData.phone,
+        room_number: formData.roomNumber,
+        password: hashed,
+      }]);
+    alert(
+      'Check your email for a magic-link. Once verified, sign in to finish registration.'
+    );
+    setIsLogin(true);
   };
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#050505] to-[#3c3c3c] flex items-center justify-center p-4">
       <div className="w-full max-w-md">
+        {/* Branding */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
             <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-4 rounded-full shadow-lg">
@@ -160,14 +155,17 @@ function Login() {
           <h1 className="text-4xl font-bold text-[#ECD9BA]">
             <span className="text-[#238b45]">Snack</span> Bag
           </h1>
-          <p className="text-gray-300 mt-2 text-lg">Quick snacks, delivered faster</p>
+          <p className="text-gray-300 mt-2 text-lg">
+            Quick snacks, delivered faster
+          </p>
         </div>
 
-        <div className="bg-[#3c3c3c]-900 rounded-3xl shadow-2xl overflow-hidden transform transition-all hover:shadow-2xl">
+        {/* Toggle */}
+        <div className="bg-[#3c3c3c]-900 rounded-3xl shadow-2xl overflow-hidden">
           <div className="flex">
             <button
               onClick={() => setIsLogin(true)}
-              className={`flex-1 py-5 text-center font-semibold text-lg transition-colors duration-300 ${
+              className={`flex-1 py-5 text-center font-semibold text-lg ${
                 isLogin
                   ? 'text-[#238b45] border-b-4 border-[#238b45] bg-[#ECD9BA]'
                   : 'text-[#238b45] hover:bg-gray-50'
@@ -177,56 +175,59 @@ function Login() {
             </button>
             <button
               onClick={() => setIsLogin(false)}
-              className={`flex-1 py-5 text-center font-semibold text-lg transition-colors duration-300 ${
+              className={`flex-1 py-5 text-center font-semibold text-lg ${
                 !isLogin
-                ? 'text-[#238b45] border-b-4 border-[#238b45] bg-[#ECD9BA]'
-                : 'text-[#238b45] hover:bg-gray-50'
-            }`}
+                  ? 'text-[#238b45] border-b-4 border-[#238b45] bg-[#ECD9BA]'
+                  : 'text-[#238b45] hover:bg-gray-50'
+              }`}
             >
               Sign Up
             </button>
           </div>
 
+          {/* Form */}
           <div className="p-8">
             <form onSubmit={handleSubmit}>
               {!isLogin && (
                 <>
+                  {/* Name */}
                   <div className="mb-5">
-                    <label htmlFor="name" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
+                    <label className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                       Full Name
                     </label>
                     <div className="relative">
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-[gray-500]">
-                        <User size={20} />
-                      </span>
+                      <User
+                        size={20}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+                      />
                       <input
                         type="text"
-                        id="name"
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className="w-full py-4 pl-12 pr-4 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
+                        className="w-full py-4 px-4 pl-12 rounded-xl bg-[#ebebd4]/95 border"
                         placeholder="John Doe"
                         required
                       />
                     </div>
                   </div>
 
+                  {/* Room */}
                   <div className="mb-5">
-                    <label htmlFor="roomNumber" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
+                    <label className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                       Room Number
                     </label>
                     <div className="relative">
-                      <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500">
-                        <Home size={20} />
-                      </span>
+                      <Home
+                        size={20}
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+                      />
                       <input
                         type="text"
-                        id="roomNumber"
                         name="roomNumber"
                         value={formData.roomNumber}
                         onChange={handleChange}
-                        className="w-full py-4 pl-12 pr-4 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
+                        className="w-full py-4 px-4 pl-12 rounded-xl bg-[#ebebd4]/95 border"
                         placeholder="101"
                         required
                       />
@@ -235,85 +236,92 @@ function Login() {
                 </>
               )}
 
+              {/* Phone */}
               <div className="mb-5">
-                <label htmlFor="phone" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
+                <label className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                   Phone Number
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500">
-                    <Phone size={20} />
-                  </span>
+                  <Phone
+                    size={20}
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  />
                   <input
                     type="tel"
-                    id="phone"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full py-4 pl-12 pr-4 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
+                    className="w-full py-4 px-4 pl-12 rounded-xl bg-[#ebebd4]/95 border"
                     placeholder="9876543210"
                     required
                   />
                 </div>
               </div>
 
+              {/* Email */}
               <div className="mb-5">
-                <label htmlFor="email" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
+                <label className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                   Email
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500">📧</span>
+                  <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500">
+                    📧
+                  </span>
                   <input
                     type="email"
-                    id="email"
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full py-4 pl-12 pr-4 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
+                    className="w-full py-4 px-4 pl-12 rounded-xl bg-[#ebebd4]/95 border"
                     placeholder="email@example.com"
                     required
                   />
                 </div>
               </div>
 
+              {/* Password */}
               <div className="mb-8">
-                <label htmlFor="password" className="block text-sm font-semibold text-[#ECD9BA] mb-1">
+                <label className="block text-sm font-semibold text-[#ECD9BA] mb-1">
                   Password
                 </label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-500">
-                    <Lock size={20} />
-                  </span>
+                  <Lock
+                    size={20}
+                    className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500"
+                  />
                   <input
                     type={showPassword ? 'text' : 'password'}
-                    id="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
-                    className="w-full py-4 pl-12 pr-12 text-gray-700 bg-[#ebebd4]/95 rounded-xl border border-gray-200"
+                    className="w-full py-4 px-4 pl-12 pr-12 rounded-xl bg-[#ebebd4]/95 border"
                     placeholder="********"
                     required
                   />
-                  <span
-                    className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 cursor-pointer"
-                    onClick={() => setShowPassword(!showPassword)}
+                  <div
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
+                    onClick={() => setShowPassword((v) => !v)}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-                  </span>
+                  </div>
                 </div>
               </div>
 
+              {/* Submit */}
               <button
                 type="submit"
-                className="w-full py-4 bg-[#ECD9BA] hover:bg-orange-600 text-[#238b45] font-bold rounded-xl transition duration-300 flex items-center justify-center"
+                className="w-full py-4 bg-[#ECD9BA] hover:bg-orange-600 text-[#238b45] font-bold rounded-xl flex justify-center items-center gap-2"
                 disabled={!isLogin && signupDisabled}
               >
                 {isLogin ? 'Sign In' : 'Sign Up'}
-                <ChevronRight className="ml-2" />
+                <ChevronRight size={20} />
               </button>
             </form>
 
             {promptMessage && (
-              <p className="text-sm text-red-500 mt-4 text-center">{promptMessage}</p>
+              <p className="text-sm text-red-500 mt-4 text-center">
+                {promptMessage}
+              </p>
             )}
           </div>
         </div>

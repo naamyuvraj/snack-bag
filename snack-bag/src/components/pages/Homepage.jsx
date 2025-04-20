@@ -7,14 +7,10 @@ import Footer from "./footer";
 import Banner from "./banner";
 
 const slides = [
-  "You are here ,because you are highly addicted to snacks.",
-  "Explore our vast collection of snacks.",
-  "Find your favorite snacks.",
-  "Enjoy the best prices.",
-  "Get ready for a snack attack!",
-  "Satisfy your cravings.",
-  "Discover amazing features.",
-  "Join us today!",
+  
+  "https://www.youtube.com/watch?v=iUIZcZceZf0",
+  "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
+  "https://cdn.videvo.net/videvo_files/video/free/2013-08/large_watermarked/SnackFood1_preview.mp4",
 ];
 
 export default function Homepage() {
@@ -31,13 +27,13 @@ export default function Homepage() {
   return (
     <>
       <div
-        className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-5 w-full h-full"
+        className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full h-full"
         style={{ fontFamily: "Poppins, sans-serif" }}
       >
         <nav className="pb-5 flex justify-between px-6 items-center">
           <SquareUserRound
             className="w-10 h-10 text-[#ECD9BA] hover:text-black transition"
-            onClick={() => navigate("/profile")} 
+            onClick={() => navigate("/profile")}
           />
           <div className="text-3xl text-[#ECD9BA] font-semibold ml-[-10]">
             <h1 className="text-4xl font-bold text-[#ECD9BA]">
@@ -46,12 +42,12 @@ export default function Homepage() {
           </div>
           <ShoppingCart
             className="w-10 h-10 text-[#238b45] hover:text-black transition"
-            onClick={() => navigate("/cart")} 
+            onClick={() => navigate("/cart")}
           />
         </nav>
         <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
         <br />
-        <div className="mr-5">
+        <div className="mr-5 mb-2">
           <h1 className="text-left text-4xl font-semibold text-[#238b45] ml-6">
             Yup,
           </h1>
@@ -62,23 +58,30 @@ export default function Homepage() {
             Hungaryyyyy...
           </h1>
         </div>
-        <Banner />
         <br />
-        <div className="relative m-auto w-[90%] max-w-2xl h-80 overflow-hidden rounded-xl shadow-lg bg-white p-8 flex items-start justify-center text-center">
+        <div className="relative m-auto w-[90%] max-w-2xl h-80 overflow-hidden rounded-xl shadow-lg bg-white">
           <div
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {slides.map((text, index) => (
+            {slides.map((videoUrl, index) => (
               <div
                 key={index}
-                className="min-w-full h-96 flex-shrink-0 flex items-center justify-center text-2xl font-bold text-gray-800"
+                className="min-w-full h-80 flex-shrink-0 flex items-center justify-center"
               >
-                {text}
+                <video
+                  src={videoUrl}
+                  className="w-full h-full object-cover rounded-xl"
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                />
               </div>
             ))}
           </div>
-          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+
+          <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-10">
             {slides.map((_, index) => (
               <button
                 key={index}

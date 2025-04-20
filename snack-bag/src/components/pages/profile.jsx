@@ -51,7 +51,7 @@ export default function User() {
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-[#000000] to-[#3c3c3c] py-10 px-5 font-[Poppins,sans-serif]">
-      <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-4">
+      <div className="flex flex-row justify-between md:w-1/2 w-[230px]  mb-4">
         <div className="text-5xl text-[#ECD9BA]" onClick={() => navigate("/")}>
           <button>
             <IoChevronBackCircleOutline />
@@ -63,11 +63,10 @@ export default function User() {
       <hr className="border-1 border-[#ECD9BA] mx-auto mb-7 w-[95%]" />
 
       {/* User Info Section */}
-      <div className="bg-[#1f1f1f] rounded-2xl shadow-lg p-6 flex items-center gap-6 max-w-xl mx-auto mb-10 hover:scale-[1.01] transition">
+      <div className="bg-[#1f1f1f] rounded-2xl shadow-lg p-5 flex items-center gap-9 max-w-xl mx-auto mb-10 hover:scale-[1.01] transition">
         <CircleUserRound className="text-[#238b45] w-20 h-20" />
         <div>
-          <h2 className="text-xl text-[#ECD9BA] font-semibold">Welcome,</h2>
-          <p className="text-lg text-[#238b45] font-medium">
+\          <p className="text-lg text-[#238b45] font-medium">
             {userInfo?.name || "Guest"}
           </p>
           <p className="text-sm text-[#ECD9BA]">Room: {userInfo?.room_number}</p>
