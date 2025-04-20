@@ -6,9 +6,17 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "../../supabaseClient";
 import useUser from "../../useUser";
 import LoadingPage from "../Loading";
+
 function Cart() {
   const navigate = useNavigate();
   const user = useUser();
+
+  // ← NEW: redirect to login if not authenticated
+  useEffect(() => {
+    if (user === undefined) return; // still loading
+    if (user === null) navigate("/login");
+  }, [user, navigate]);
+
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [amountTopay, setAmountToPay] = useState(0);
@@ -133,14 +141,12 @@ function Cart() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`, // ✅ Add this line
+          Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({ amount: amountTopay * 100 }),
       });
 
       const orderData = await res.json();
-      console.log("Amount from backend:", orderData.amount);
-
       if (orderData.error) throw new Error(orderData.error);
 
       // Preparing ordered products for storage in jsonb format
@@ -159,36 +165,21 @@ function Cart() {
         handler: async function (response) {
           alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
 
-          // Insert order data into `orders_razorpay` table, including products as jsonb
-          const { error: orderError } = await supabase.from("orders_razorpay").insert([
+          await supabase.from("orders_razorpay").insert([
             {
               user_id: user.id,
               amount: amountTopay,
               payment_id: response.razorpay_payment_id,
               user_name: profile?.name,
-              products: orderedProducts, // Insert products as jsonb
+              products: orderedProducts,
             },
           ]);
 
-          if (orderError) {
-            console.error("Failed to save order:", orderError);
-            return;
-          }
-
-          // Clear the cart after successful order
-          const { error: clearCartError } = await supabase
-            .from("carts")
-            .delete()
-            .eq("user_id", user.id);
-
-          if (clearCartError) {
-            console.error("Failed to clear cart:", clearCartError);
-          } else {
-            alert("Order placed and cart cleared!");
-            setCartItems([]);
-            setAmountToPay(0);
-            navigate("/");
-          }
+          await supabase.from("carts").delete().eq("user_id", user.id);
+          alert("Order placed and cart cleared!");
+          setCartItems([]);
+          setAmountToPay(0);
+          navigate("/");
         },
         prefill: {
           name: profile?.name || "Customer",
@@ -215,7 +206,7 @@ function Cart() {
       style={{ fontFamily: "Poppins, sans-serif" }}
       className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-2 w-full h-full"
     >
-      <div className="md:w-full w-[400px] rounded-xl bg-gradient-to-r from-[#050505] to-[#3c3c3c] mx-auto flex flex-col h-screen mt- pl-3 pr-3 ">
+      <div className="md:w-full w-[400px] rounded-xl bg-gradient-to-r from-[#050505] to-[#3c3c3c] mx-auto flex flex-col h-screen mt- pl-3 pr-3">
         <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-6">
           <div className="text-5xl text-[#ECD9BA]" onClick={() => navigate("/")}>
             <button>

@@ -3,13 +3,13 @@ import Footer from "../pages/footer";
 export default function TermsAndCond() {
   return (
     <div
-      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full h-full"
+      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-5 w-full h-full"
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
-      <h1 className="text-center text-2xl text-[#238b45] font-semibold">
+      <h1 className="text-center text-2xl text-[#238b45] font-semibold mt-2">
         Terms & Conditions
       </h1>
-      <hr className="border-1 border-[#238b45] mx-auto mt-5" />
+      <hr className="border-1 border-[#238b45] mx-auto mt-5 w-[60%] " />
 
       <ul className="text-[#ECD9BA] text-lg mt-6 mx-10 list-disc list-inside space-y-4">
         <li>

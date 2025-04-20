@@ -11,7 +11,7 @@ export default function Footer() {
 
         {/* Links in two rows */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-lg font-medium text-center md:text-left">
-          <span className="cursor-pointer hover:underline" onClick={() => navigate("/about")}>
+          <span href="about" className="cursor-pointer hover:underline" onClick={() => navigate("/about")}>
             About Us
           </span>
           <span className="cursor-pointer hover:underline" onClick={() => navigate("/contact")}>

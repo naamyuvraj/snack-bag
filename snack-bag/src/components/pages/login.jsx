@@ -148,8 +148,14 @@ function Login() {
         {/* Branding */}
         <div className="text-center mb-8">
           <div className="flex justify-center mb-4">
-            <div className="bg-gradient-to-r from-orange-500 to-orange-600 p-4 rounded-full shadow-lg">
-              <ShoppingBag className="text-white" size={28} />
+            <div className="bg-[#ECD9BA] to-orange-600 p-1 rounded-full ">
+              {/* <ShoppingBag className="text-white" size={28} /> */}
+              <img
+              
+                src="/assets/logo.png"
+                alt="Logo"
+                className="w-30 h-30 rounded-full object-cover"
+              />
             </div>
           </div>
           <h1 className="text-4xl font-bold text-[#ECD9BA]">
@@ -206,7 +212,7 @@ function Login() {
                         value={formData.name}
                         onChange={handleChange}
                         className="w-full py-4 px-4 pl-12 rounded-xl bg-[#ebebd4]/95 border"
-                        placeholder="John Doe"
+                        placeholder="Yuvraj"
                         required
                       />
                     </div>
@@ -252,7 +258,7 @@ function Login() {
                     value={formData.phone}
                     onChange={handleChange}
                     className="w-full py-4 px-4 pl-12 rounded-xl bg-[#ebebd4]/95 border"
-                    placeholder="9876543210"
+                    placeholder="9153471582"
                     required
                   />
                 </div>
@@ -273,7 +279,7 @@ function Login() {
                     value={formData.email}
                     onChange={handleChange}
                     className="w-full py-4 px-4 pl-12 rounded-xl bg-[#ebebd4]/95 border"
-                    placeholder="email@example.com"
+                    placeholder="Yoursnackbag@gmail.com"
                     required
                   />
                 </div>

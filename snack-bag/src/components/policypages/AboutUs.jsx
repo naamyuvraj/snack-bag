@@ -7,7 +7,7 @@ export default function AboutUs() {
     {
       name: "Yuvraj",
       role: "Co-Founder & Full-Stack Developer",
-      img: "./assets/yuvraj.jpeg",
+      img: "./assets/yuvraj1.jpeg",
       instagram: "https://www.instagram.com/naam.yuvraj/",
       linkedin: "https://www.linkedin.com/in/yuvraj-mandal-b4ab85325/",
     },
@@ -29,15 +29,15 @@ export default function AboutUs() {
 
   return (
     <div
-      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-7 w-full min-h-screen"
+      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-4 w-full min-h-screen"
 
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
-      
-      <h1 className="text-center text-2xl text-[#238b45] font-semibold mt-7 mb-3">
+
+      <h1 className="text-center text-2xl text-[#238b45] font-semibold mt-7 mb-3" id="about">
         About Us
       </h1>
-      <hr className="border-1 border-[#238b45] mx-auto mt-3 " />
+      <hr className="border-1 border-[#238b45] mx-auto mt-3 w-1/2" />
 
       <div className="text-[#ECD9BA] text-lg mt-6 mx-10 space-y-4 max-w-4xl mx-4">
         <p>
