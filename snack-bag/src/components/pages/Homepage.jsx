@@ -9,8 +9,6 @@ import Banner from "./banner";
 const slides = [
   
   "https://www.youtube.com/watch?v=iUIZcZceZf0",
-  "https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_1mb.mp4",
-  "https://cdn.videvo.net/videvo_files/video/free/2013-08/large_watermarked/SnackFood1_preview.mp4",
 ];
 
 export default function Homepage() {
