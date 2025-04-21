@@ -108,7 +108,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
 
   return (
     <div
-      className=" sm:w-[40%] md:w-[30%] lg:w-[63%] bg-[#238b45] backdrop-blur-sm opacity-100 border border-gray-200 rounded-2xl shadow-md p-3 px-5 text-center transition hover:shadow-md hover:scale-[1.02]"
+      className=" sm:w-[35%] md:w-[30%] lg:w-[63%] bg-[#238b45] backdrop-blur-sm opacity-100 border border-gray-200 rounded-2xl shadow-md p-3 px-5 text-center transition hover:shadow-md hover:scale-[1.02]"
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
       <img
@@ -124,7 +124,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
       </div>
 
       <div className="w-full flex justify-between items-center mt-">
-        <h5 className="text-xl font-semibold tracking-tight text-[#3c3c3c] ml-3">
+        <h5 className="text-xl font-semibold tracking-tight text-[#3c3c3c] ml-1 mt-1">
           ₹ {price}
         </h5>
 
@@ -132,7 +132,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
           {stock > 0 && quantity === 0 ? (
             <button
               onClick={handleAddToCart}
-              className="inline-flex items-center gap-2 px-2 py-1 text-lg font-medium text-[#ECD9BA] bg-[#ECD9BA]] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="inline-flex items-center gap-2 px-2 py-1 text-sm font-medium text-[#ECD9BA] bg-[#ECD9BA]] rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
             >
               Add
             </button>
@@ -142,7 +142,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
                 onClick={handleDecrement}
                 className="bg-[#F6E9B2] text-[#7ABA78] rounded-lg p-2 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
               >
-                <Minus className="w-4 h-4" />
+                <Minus className="w-3 h-3" />
               </button>
               <span className="text-md font-medium text-[#F6E9B2]">
                 {quantity}
@@ -156,7 +156,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
                     : "hover:bg-blue-800"
                 } focus:ring-4 focus:outline-none focus:ring-blue-300`}
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-3 h-3" />
               </button>
             </div>
           ) : null}

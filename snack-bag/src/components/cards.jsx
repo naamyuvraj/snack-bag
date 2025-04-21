@@ -21,7 +21,7 @@ export default function Cards() {
                 {name}
               </h5>
             </div>
-            <a href="#" className="text-[.6rem] font-medium text-[#ECD9BA] ">
+            <a href="#" className="text-[.6rem] font-medium text-[#3c3c3c] ">
               Explore →
             </a>
           </div>

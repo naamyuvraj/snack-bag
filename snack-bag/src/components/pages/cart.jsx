@@ -90,7 +90,10 @@ function Cart() {
     if (newQuantity < 1) {
       const confirmRemove = window.confirm("Remove this item from cart?");
       if (confirmRemove) {
-        const { error } = await supabase.from("carts").delete().eq("id", cartId);
+        const { error } = await supabase
+          .from("carts")
+          .delete()
+          .eq("id", cartId);
         if (!error) {
           setCartItems((prev) => prev.filter((item) => item.id !== cartId));
           const updatedTotal = cartItems.reduce((acc, item) => {
@@ -137,14 +140,17 @@ function Cart() {
 
     try {
       // Creating order in backend
-      const res = await fetch("https://ettqxkemkniooiqstkou.supabase.co/functions/v1/create-order", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({ amount: amountTopay * 100 }),
-      });
+      const res = await fetch(
+        "https://ettqxkemkniooiqstkou.supabase.co/functions/v1/create-order",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: JSON.stringify({ amount: amountTopay * 100 }),
+        }
+      );
 
       const orderData = await res.json();
       if (orderData.error) throw new Error(orderData.error);
@@ -208,39 +214,52 @@ function Cart() {
     >
       <div className="md:w-full w-[400px] rounded-xl bg-gradient-to-r from-[#050505] to-[#3c3c3c] mx-auto flex flex-col h-screen mt- pl-3 pr-3">
         <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-6">
-          <div className="text-5xl text-[#ECD9BA]" onClick={() => navigate("/")}>
+          <div
+            className="text-5xl text-[#ECD9BA]"
+            onClick={() => navigate("/")}
+          >
             <button>
               <IoChevronBackCircleOutline />
             </button>
           </div>
-          <div className="text-3xl mt-1 text-[#ECD9BA]">Cart</div>
+          <div className="text-2xl mt-1 text-[#ECD9BA]">Cart</div>
         </div>
 
         <div className="flex-grow overflow-y-auto h-150">
           {cartItems.map((item, index) => {
             const product = item.products;
             return (
-              <div className="mt-2" key={index}>
-                <div className="flex rounded-3xl justify-center items-center p-2 border border-[#ECD9BA]/90 shadow-xl">
-                  <div className="flex justify-evenly md:justify-evenly p-2">
+              <div className="mt-" key={index}>
+                <div className="flex rounded-xl justify-center items-center pt-2 pb-2 border border-[#ECD9BA]/90 shadow-xl">
+                  <div className="flex justify-evenly md:justify-evenly pt-2 pb-2">
                     <div className="flex flex-col w-30 h-30 justify-between">
-                      <div className="text-xl text-[#238b45] break-words">
+                      <div className="text-lg text-[#238b45] break-words mt-3">
                         {product.name}
                       </div>
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-3 mb-2">
                         <button
                           className="text-4xl text-[#ECD9BA]"
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1, product.quantity)
+                            updateQuantity(
+                              item.id,
+                              item.quantity + 1,
+                              product.quantity
+                            )
                           }
                         >
                           <CiCirclePlus />
                         </button>
-                        <span className="text-xl text-[#ECD9BA]">{item.quantity}</span>
+                        <span className="text-xl text-[#ECD9BA]">
+                          {item.quantity}
+                        </span>
                         <button
                           className="text-4xl text-[#ECD9BA]"
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity - 1, product.quantity)
+                            updateQuantity(
+                              item.id,
+                              item.quantity - 1,
+                              product.quantity
+                            )
                           }
                         >
                           <CiCircleMinus />
@@ -249,12 +268,12 @@ function Cart() {
                     </div>
                   </div>
 
-                  <div className="h-30 w-30 mx-3 rounded-3xl">
+                  <div className="h-25 w-25 mx-5 rounded-3xl">
                     <img src={product.image_url} alt={product.name} />
                   </div>
 
-                  <div className="text-xl text-[#ECD9BA] text-right pl-3">
-                    <div className="font-bold">
+                  <div className="text-lg text-[#ECD9BA] text-right pl- flex flex-col items-center">
+                    <div className="font-bold flex items-center gap-1">
                       <FaRupeeSign /> {item.quantity * product.selling_price}
                     </div>
                   </div>
@@ -264,16 +283,16 @@ function Cart() {
           })}
         </div>
 
-        <div className="flex justify-between mt-5 border border-[#ECD9BA]/90 p-5 rounded-xl">
+        <div className="flex justify-between mt-5 border border-[#ECD9BA]/90 p-7 rounded-xl">
           <div className="text-xl text-[#ECD9BA] ml-6">Total: </div>
-          <div className="text-xl font-semibold text-[#238b45] inline-flex items-center gap-1 mr-6">
+          <div className="text-xl font-semibold text-[#238b45] inline-flex items-center gap-1 mr-6 ">
             <FaRupeeSign /> {amountTopay}
           </div>
         </div>
 
         <button
           onClick={handlePayment}
-          className="mt-6 mb-16 py-2 bg-[#238b45] text-[#ECD9BA] font-semibold rounded-xl"
+          className="mt-6 mb-16 py-4 bg-[#238b45] text-[#ECD9BA] font-semibold rounded-xl "
         >
           Proceed to Payment
         </button>

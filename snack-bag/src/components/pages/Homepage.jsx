@@ -6,17 +6,16 @@ import Famous from "./Famous";
 import Footer from "./footer";
 import Banner from "./banner";
 
-const slides = ["https://www.youtube.com/embed/iUIZcZceZf0",
+const slides = [
+  "https://www.youtube.com/embed/iUIZcZceZf0",
   "https://www.youtube.com/embed/1SIq_mvvs2s",
   "https://www.youtube.com/embed/kpHBxLqkikw",
-  "https://www.youtube.com/embed/zQBhJD8CYm0"
-
+  "https://www.youtube.com/embed/zQBhJD8CYm0",
 ];
 
 export default function Homepage() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const navigate = useNavigate(); // Ensure navigate is initialized
-
+  const navigate = useNavigate();
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);

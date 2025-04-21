@@ -75,7 +75,7 @@ export default function OrderHistory() {
             <IoChevronBackCircleOutline />
           </button>
         </div>
-        <div className="text-3xl mt-1 text-[#ECD9BA]">My Orders</div>
+        <div className="text-2xl mt-1 text-[#ECD9BA]">My Orders</div>
       </div>
 
       {orders.length === 0 ? (
