@@ -137,7 +137,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
               Add
             </button>
           ) : quantity > 0 ? (
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center justify-center gap-2">
               <button
                 onClick={handleDecrement}
                 className="bg-[#F6E9B2] text-[#7ABA78] rounded-lg p-2 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"

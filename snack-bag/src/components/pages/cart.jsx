@@ -21,6 +21,7 @@ function Cart() {
   const [loading, setLoading] = useState(true);
   const [amountTopay, setAmountToPay] = useState(0);
   const [profile, setProfile] = useState(null);
+  
 
   // Fetch cart items
   useEffect(() => {
