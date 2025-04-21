@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import Famous from "./Famous";
 import Footer from "./footer";
 import Banner from "./banner";
-
+import {MapPin} from "lucide-react";
 const slides = [
   "https://www.youtube.com/embed/iUIZcZceZf0",
   "https://www.youtube.com/embed/1SIq_mvvs2s",
@@ -45,6 +45,7 @@ export default function Homepage() {
           />
         </nav>
         <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
+        <div className="flex justify- items-center bg-[#ECD9BA] p-1 opacity-[75%] w-[95%] m-auto"><MapPin className="w-7 h-7 text-[#238b45] mt- mx-4"/><p className="text-[#238b45] mt-">Your Space Hostel, Lohegaon, Pune, 411047</p></div>
         <br />
         <div className="mr-5 mb-2">
           <h1 className="text-left text-4xl font-semibold text-[#238b45] ml-6">
