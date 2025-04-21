@@ -13,7 +13,7 @@ export default function LoadingPage() {
 
       {/* Loading text with animation */}
       <motion.h1
-        className="mt-8 text-3xl font-bold text-[#F6E9B2] font-mono"
+        className="mt-8 text-xl font-bold text-[#F6E9B2] font-mono"
         initial={{ opacity: 0.3 }}
         animate={{ opacity: [0.3, 1, 0.3] }}
         transition={{ repeat: Infinity, duration: 2 }}
