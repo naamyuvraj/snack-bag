@@ -4,17 +4,14 @@ import Footer from "../pages/footer";
 export default function ShippingAndDelivery() {
   return (
     <div
-      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-4 w-full h-screen"
+      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-4 w-full min-h-screen"
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
       <h1 className="text-center text-2xl text-[#238b45] font-semibold mt-4">
         Shipping & Delivery Policy
       </h1>
-      <hr className="border-1 border-[#238b45] mx-auto mt-3 w-[50%]" />
+      <hr className="border-1 border-[#238b45] mx-auto mt-3 w-[70%]" />
       <ul className="text-[#ECD9BA] text-lg mt-6 mx-10 list-disc list-inside space-y-4">
-        <li>
-          For <span className="text-[#238b45]">international buyers</span>, orders are shipped and delivered through registered international courier companies and/or international speed post only.
-        </li>
         <li>
           For <span className="text-[#238b45]">domestic buyers</span>, orders are shipped through registered domestic courier companies and/or speed post only.
         </li>
