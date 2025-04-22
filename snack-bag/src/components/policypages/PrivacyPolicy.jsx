@@ -3,7 +3,7 @@ import Footer from "../pages/footer";
 export default function PrivacyPolicy() {
   return (
     <div
-      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-4 w-full h-full"
+      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-4 w-full h-screen"
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
       <h1 className="text-center text-2xl text-[#238b45] font-semibold mt-4">
