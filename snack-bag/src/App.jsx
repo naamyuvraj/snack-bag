@@ -16,6 +16,7 @@ import TermsAndCond from "./components/policypages/t&c.jsx";
 import AboutUs from "./components/policypages/AboutUs.jsx";
 import ContactUs from "./components/policypages/ContactUs.jsx";
 import ScrollToTop from "./ScrollToTop.jsx";
+import ShippingAndDelivery from "./components/policypages/shipment.jsx";
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
         <Route path="/terms" element={<TermsAndCond />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="/shipment" element={<ShippingAndDelivery />} />
       </Routes>
     </div>
   );

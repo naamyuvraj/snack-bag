@@ -26,6 +26,10 @@ export default function Footer() {
           <span className="cursor-pointer hover:underline" onClick={() => navigate("/cancellation")}>
             Cancellation & Refund
           </span>
+          <span className="cursor-pointer hover:underline" onClick={() => navigate("/shipment")}>
+            Shipping & Delivery
+          </span>
+
         </div>
 
         {/* Brand */}
