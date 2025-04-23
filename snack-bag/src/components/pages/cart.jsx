@@ -293,7 +293,7 @@ function Cart() {
 
         <button
           onClick={handlePayment}
-          className="mt-6 mb-16 py-4 bg-[#238b45] text-[#ECD9BA] font-semibold rounded-xl "
+          className="mt-6 mb-16 py-4 bg-[#238b45] text-[#ECD9BA] font-semibold rounded-xl hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg flex items-center justify-center"
         >
           Proceed to Payment
         </button>
