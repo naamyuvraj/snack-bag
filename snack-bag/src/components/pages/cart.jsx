@@ -11,9 +11,8 @@ function Cart() {
   const navigate = useNavigate();
   const user = useUser();
 
-  // ← NEW: redirect to login if not authenticated
   useEffect(() => {
-    if (user === undefined) return; // still loading
+    if (user === undefined) return;
     if (user === null) navigate("/login");
   }, [user, navigate]);
 
@@ -21,9 +20,7 @@ function Cart() {
   const [loading, setLoading] = useState(true);
   const [amountTopay, setAmountToPay] = useState(0);
   const [profile, setProfile] = useState(null);
-  
 
-  // Fetch cart items
   useEffect(() => {
     const fetchCartItems = async () => {
       if (!user) return;
@@ -66,7 +63,6 @@ function Cart() {
     fetchCartItems();
   }, [user]);
 
-  // Fetch user profile from `users` table
   useEffect(() => {
     const fetchUserProfile = async () => {
       if (!user) return;
@@ -91,10 +87,7 @@ function Cart() {
     if (newQuantity < 1) {
       const confirmRemove = window.confirm("Remove this item from cart?");
       if (confirmRemove) {
-        const { error } = await supabase
-          .from("carts")
-          .delete()
-          .eq("id", cartId);
+        const { error } = await supabase.from("carts").delete().eq("id", cartId);
         if (!error) {
           setCartItems((prev) => prev.filter((item) => item.id !== cartId));
           const updatedTotal = cartItems.reduce((acc, item) => {
@@ -135,12 +128,11 @@ function Cart() {
 
   const handlePayment = async () => {
     if (!user) return;
-  
+
     const { data: sessionData } = await supabase.auth.getSession();
     const accessToken = sessionData?.session?.access_token;
-  
+
     try {
-      // Step 1: Create Razorpay order using Edge Function
       const res = await fetch(
         "https://ettqxkemkniooiqstkou.supabase.co/functions/v1/create-order",
         {
@@ -152,18 +144,16 @@ function Cart() {
           body: JSON.stringify({ amount: amountTopay * 100 }),
         }
       );
-  
+
       const orderData = await res.json();
       if (orderData.error) throw new Error(orderData.error);
-  
-      // Step 2: Prepare order product list
+
       const orderedProducts = cartItems.map((item) => ({
         name: item.products.name,
-        product_id: item.product_id, // ✅ Use cart item.product_id
+        product_id: item.product_id,
         quantity: item.quantity,
       }));
-  
-      // Step 3: Razorpay checkout config
+
       const options = {
         key: "rzp_live_alNgd3kLZw4sM0",
         amount: orderData.amount,
@@ -173,8 +163,7 @@ function Cart() {
         order_id: orderData.id,
         handler: async function (response) {
           alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
-  
-          // Step 4: Save order in Supabase
+
           await supabase.from("orders_razorpay").insert([
             {
               user_id: user.id,
@@ -184,47 +173,43 @@ function Cart() {
               products: orderedProducts,
             },
           ]);
-  
-          // Step 5: Delete cart items
+
           await supabase.from("carts").delete().eq("user_id", user.id);
-  
-          // Step 6: Update product quantities (IMPORTANT FIX)
+
           for (const item of orderedProducts) {
-            // Fetch current quantity
             const { data: productData, error: fetchError } = await supabase
               .from("products")
               .select("quantity")
               .eq("id", item.product_id)
               .single();
-  
+
             if (fetchError) {
               console.error(`Error fetching product ${item.product_id}:`, fetchError);
               continue;
             }
-  
+
             const currentQty = productData.quantity;
             const newQty = currentQty - item.quantity;
-  
+
             if (newQty < 0) {
               console.warn(`Not enough stock for product ${item.product_id}`);
               continue;
             }
-  
+
             const { error: updateError } = await supabase
               .from("products")
               .update({ quantity: newQty })
               .eq("id", item.product_id);
-  
+
             if (updateError) {
               console.error(`Error updating quantity for ${item.product_id}:`, updateError);
             }
           }
-  
-          // Step 7: Cleanup and redirect
+
           alert("Thank you for your order! Please collect it from Room 315.");
           setCartItems([]);
           setAmountToPay(0);
-          navigate("/");
+          navigate("/history");
         },
         prefill: {
           name: profile?.name || "Customer",
@@ -235,7 +220,7 @@ function Cart() {
           color: "#238b45",
         },
       };
-  
+
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
@@ -243,7 +228,7 @@ function Cart() {
       alert("Something went wrong during payment. Please try again.");
     }
   };
-    
+
   if (loading) return <LoadingPage />;
 
   return (
@@ -265,76 +250,86 @@ function Cart() {
         </div>
 
         <div className="flex-grow overflow-y-auto h-150">
-          {cartItems.map((item, index) => {
-            const product = item.products;
-            return (
-              <div className="mt-" key={index}>
-                <div className="flex rounded-xl justify-center items-center pt-2 pb-2 border border-[#ECD9BA]/90 shadow-xl">
-                  <div className="flex justify-evenly md:justify-evenly pt-2 pb-2">
-                    <div className="flex flex-col w-30 h-30 justify-between">
-                      <div className="text-lg text-[#238b45] break-words mt-3">
-                        {product.name}
-                      </div>
-                      <div className="flex items-center gap-3 mb-2">
-                        <button
-                          className="text-4xl text-[#ECD9BA]"
-                          onClick={() =>
-                            updateQuantity(
-                              item.id,
-                              item.quantity + 1,
-                              product.quantity
-                            )
-                          }
-                        >
-                          <CiCirclePlus />
-                        </button>
-                        <span className="text-xl text-[#ECD9BA]">
-                          {item.quantity}
-                        </span>
-                        <button
-                          className="text-4xl text-[#ECD9BA]"
-                          onClick={() =>
-                            updateQuantity(
-                              item.id,
-                              item.quantity - 1,
-                              product.quantity
-                            )
-                          }
-                        >
-                          <CiCircleMinus />
-                        </button>
+          {cartItems.length === 0 ? (
+            <div className="text-center text-[#ECD9BA] text-xl mt-10">
+              Your cart is empty 🛒
+            </div>
+          ) : (
+            cartItems.map((item, index) => {
+              const product = item.products;
+              return (
+                <div className="mt-" key={index}>
+                  <div className="flex rounded-xl justify-center items-center pt-2 pb-2 border border-[#ECD9BA]/90 shadow-xl">
+                    <div className="flex justify-evenly md:justify-evenly pt-2 pb-2">
+                      <div className="flex flex-col w-30 h-30 justify-between">
+                        <div className="text-lg text-[#238b45] break-words mt-3">
+                          {product.name}
+                        </div>
+                        <div className="flex items-center gap-3 mb-2">
+                          <button
+                            className="text-4xl text-[#ECD9BA]"
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                item.quantity + 1,
+                                product.quantity
+                              )
+                            }
+                          >
+                            <CiCirclePlus />
+                          </button>
+                          <span className="text-xl text-[#ECD9BA]">
+                            {item.quantity}
+                          </span>
+                          <button
+                            className="text-4xl text-[#ECD9BA]"
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                item.quantity - 1,
+                                product.quantity
+                              )
+                            }
+                          >
+                            <CiCircleMinus />
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="h-25 w-25 mx-5 rounded-3xl">
-                    <img src={product.image_url} alt={product.name} />
-                  </div>
+                    <div className="h-25 w-25 mx-5 rounded-3xl">
+                      <img src={product.image_url} alt={product.name} />
+                    </div>
 
-                  <div className="text-lg text-[#ECD9BA] text-right pl- flex flex-col items-center">
-                    <div className="font-bold flex items-center gap-1">
-                      <FaRupeeSign /> {item.quantity * product.selling_price}
+                    <div className="text-lg text-[#ECD9BA] text-right flex flex-col items-center">
+                      <div className="font-bold flex items-center gap-1">
+                        <FaRupeeSign /> {item.quantity * product.selling_price}
+                      </div>
                     </div>
                   </div>
                 </div>
+              );
+            })
+          )}
+        </div>
+
+        {cartItems.length > 0 && (
+          <>
+            <div className="flex justify-between mt-5 border border-[#ECD9BA]/90 p-7 rounded-xl">
+              <div className="text-xl text-[#ECD9BA] ml-6">Total: </div>
+              <div className="text-xl font-semibold text-[#238b45] inline-flex items-center gap-1 mr-6 ">
+                <FaRupeeSign /> {amountTopay}
               </div>
-            );
-          })}
-        </div>
+            </div>
 
-        <div className="flex justify-between mt-5 border border-[#ECD9BA]/90 p-7 rounded-xl">
-          <div className="text-xl text-[#ECD9BA] ml-6">Total: </div>
-          <div className="text-xl font-semibold text-[#238b45] inline-flex items-center gap-1 mr-6 ">
-            <FaRupeeSign /> {amountTopay}
-          </div>
-        </div>
-
-        <button
-          onClick={handlePayment}
-          className="mt-6 mb-16 py-4 bg-[#238b45] text-[#ECD9BA] font-semibold rounded-xl hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg flex items-center justify-center"
-        >
-          Proceed to Payment
-        </button>
+            <button
+              onClick={handlePayment}
+              className="mt-6 mb-16 py-4 bg-[#238b45] text-[#ECD9BA] font-semibold rounded-xl hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg flex items-center justify-center"
+            >
+              Proceed to Payment
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
