@@ -7,9 +7,9 @@ import Footer from "./footer";
 import Banner from "./banner";
 import {MapPin} from "lucide-react";
 const slides = [
+  "https://www.youtube.com/embed/kpHBxLqkikw",
   "https://www.youtube.com/embed/iUIZcZceZf0",
   "https://www.youtube.com/embed/1SIq_mvvs2s",
-  "https://www.youtube.com/embed/kpHBxLqkikw",
   "https://www.youtube.com/embed/zQBhJD8CYm0",
 ];
 
@@ -19,7 +19,7 @@ export default function Homepage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 3000);
+    }, 8000);
     return () => clearInterval(interval);
   }, []);
 
@@ -90,7 +90,7 @@ export default function Homepage() {
               <button
                 key={index}
                 className={`w-3 h-3 rounded-full ${
-                  currentIndex === index ? "bg-black" : "bg-gray-400"
+                  currentIndex === index ? "bg-blue-500" : "bg-gray-400"
                 }`}
                 onClick={() => setCurrentIndex(index)}
               />
