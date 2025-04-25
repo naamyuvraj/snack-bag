@@ -5,6 +5,7 @@ import QRCode from "react-qr-code";
 import { IoChevronBackCircleOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import LoadingPage from "../Loading";
+
 export default function OrderHistory() {
   const user = useUser();
   const [orders, setOrders] = useState([]);
@@ -39,7 +40,16 @@ export default function OrderHistory() {
         return;
       }
 
-      setOrders(orderData);
+      // Parse products if needed
+      const parsedOrders = orderData.map((order) => ({
+        ...order,
+        products:
+          typeof order.products === "string"
+            ? JSON.parse(order.products)
+            : order.products,
+      }));
+
+      setOrders(parsedOrders);
 
       const { data: scannedData, error: scannedError } = await supabase
         .from("scanned_orders")
@@ -58,9 +68,7 @@ export default function OrderHistory() {
   }, [user]);
 
   if (loading) {
-    return (
-      <LoadingPage />
-    );
+    return <LoadingPage />;
   }
 
   return (
@@ -68,7 +76,6 @@ export default function OrderHistory() {
       style={{ fontFamily: "Poppins, sans-serif" }}
       className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] min-h-screen w-full pb-10 pt-3"
     >
-      
       <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-4">
         <div className="text-5xl text-[#ECD9BA] px-5" onClick={() => navigate("/profile")}>
           <button>
@@ -154,7 +161,7 @@ export default function OrderHistory() {
         This is what you've ordered
       </p>
 
-      {/* === QR Code Modal === */}
+      {/* QR Code Modal */}
       {selectedQRData && (
         <div className="fixed inset-0 bg-[#238b45] bg-opacity-60 flex items-center justify-center z-50">
           <div className="bg-[#ECD9BA] p-6 rounded-2xl shadow-xl max-w-[90%] w-[300px] text-center">

@@ -135,12 +135,12 @@ function Cart() {
 
   const handlePayment = async () => {
     if (!user) return;
-
+  
     const { data: sessionData } = await supabase.auth.getSession();
     const accessToken = sessionData?.session?.access_token;
-
+  
     try {
-      // Creating order in backend
+      // Step 1: Create Razorpay order using Edge Function
       const res = await fetch(
         "https://ettqxkemkniooiqstkou.supabase.co/functions/v1/create-order",
         {
@@ -152,16 +152,18 @@ function Cart() {
           body: JSON.stringify({ amount: amountTopay * 100 }),
         }
       );
-
+  
       const orderData = await res.json();
       if (orderData.error) throw new Error(orderData.error);
-
-      // Preparing ordered products for storage in jsonb format
+  
+      // Step 2: Prepare order product list
       const orderedProducts = cartItems.map((item) => ({
         name: item.products.name,
+        product_id: item.product_id, // ✅ Use cart item.product_id
         quantity: item.quantity,
       }));
-
+  
+      // Step 3: Razorpay checkout config
       const options = {
         key: "rzp_live_alNgd3kLZw4sM0",
         amount: orderData.amount,
@@ -171,7 +173,8 @@ function Cart() {
         order_id: orderData.id,
         handler: async function (response) {
           alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
-
+  
+          // Step 4: Save order in Supabase
           await supabase.from("orders_razorpay").insert([
             {
               user_id: user.id,
@@ -181,9 +184,44 @@ function Cart() {
               products: orderedProducts,
             },
           ]);
-
+  
+          // Step 5: Delete cart items
           await supabase.from("carts").delete().eq("user_id", user.id);
-          alert("Order placed and cart cleared!");
+  
+          // Step 6: Update product quantities (IMPORTANT FIX)
+          for (const item of orderedProducts) {
+            // Fetch current quantity
+            const { data: productData, error: fetchError } = await supabase
+              .from("products")
+              .select("quantity")
+              .eq("id", item.product_id)
+              .single();
+  
+            if (fetchError) {
+              console.error(`Error fetching product ${item.product_id}:`, fetchError);
+              continue;
+            }
+  
+            const currentQty = productData.quantity;
+            const newQty = currentQty - item.quantity;
+  
+            if (newQty < 0) {
+              console.warn(`Not enough stock for product ${item.product_id}`);
+              continue;
+            }
+  
+            const { error: updateError } = await supabase
+              .from("products")
+              .update({ quantity: newQty })
+              .eq("id", item.product_id);
+  
+            if (updateError) {
+              console.error(`Error updating quantity for ${item.product_id}:`, updateError);
+            }
+          }
+  
+          // Step 7: Cleanup and redirect
+          alert("Thank you for your order! Please collect it from Room 315.");
           setCartItems([]);
           setAmountToPay(0);
           navigate("/");
@@ -197,7 +235,7 @@ function Cart() {
           color: "#238b45",
         },
       };
-
+  
       const rzp = new window.Razorpay(options);
       rzp.open();
     } catch (err) {
@@ -205,7 +243,7 @@ function Cart() {
       alert("Something went wrong during payment. Please try again.");
     }
   };
-
+    
   if (loading) return <LoadingPage />;
 
   return (
