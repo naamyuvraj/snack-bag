@@ -11,15 +11,15 @@ function Cart() {
   const navigate = useNavigate();
   const user = useUser();
 
-  useEffect(() => {
-    if (user === undefined) return;
-    if (user === null) navigate("/login");
-  }, [user, navigate]);
-
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [amountTopay, setAmountToPay] = useState(0);
   const [profile, setProfile] = useState(null);
+
+  useEffect(() => {
+    if (user === undefined) return;
+    if (user === null) navigate("/login");
+  }, [user, navigate]);
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -127,7 +127,7 @@ function Cart() {
   };
 
   const handlePayment = async () => {
-    if (!user) return;
+    if (!user || !profile) return;
 
     const { data: sessionData } = await supabase.auth.getSession();
     const accessToken = sessionData?.session?.access_token;
@@ -162,9 +162,14 @@ function Cart() {
         description: "Order Payment",
         order_id: orderData.id,
         handler: async function (response) {
+          if (!response.razorpay_payment_id) {
+            alert("Payment was cancelled or failed.");
+            return;
+          }
+
           alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
 
-          await supabase.from("orders_razorpay").insert([
+          const { error: insertError } = await supabase.from("orders_razorpay").insert([
             {
               user_id: user.id,
               amount: amountTopay,
@@ -173,6 +178,12 @@ function Cart() {
               products: orderedProducts,
             },
           ]);
+
+          if (insertError) {
+            console.error("Insert order failed:", insertError);
+            alert("Order couldn't be saved. Please contact support.");
+            return;
+          }
 
           await supabase.from("carts").delete().eq("user_id", user.id);
 
@@ -236,7 +247,7 @@ function Cart() {
       style={{ fontFamily: "Poppins, sans-serif" }}
       className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-2 w-full min-h-screen"
     >
-      <div className="md:w-full w-[400px] rounded-xl bg-gradient-to-r from-[#050505] to-[#3c3c3c] mx-auto flex flex-col h-screen mt- pl-3 pr-3">
+      <div className="md:w-full w-[400px] rounded-xl bg-gradient-to-r from-[#050505] to-[#3c3c3c] mx-auto flex flex-col h-screen pl-3 pr-3">
         <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-6">
           <div
             className="text-5xl text-[#ECD9BA]"
@@ -258,9 +269,9 @@ function Cart() {
             cartItems.map((item, index) => {
               const product = item.products;
               return (
-                <div className="mt-" key={index}>
+                <div className="mt-2" key={index}>
                   <div className="flex rounded-xl justify-center items-center pt-2 pb-2 border border-[#ECD9BA]/90 shadow-xl">
-                    <div className="flex justify-evenly md:justify-evenly pt-2 pb-2">
+                    <div className="flex justify-evenly pt-2 pb-2">
                       <div className="flex flex-col w-30 h-30 justify-between">
                         <div className="text-lg text-[#238b45] break-words mt-3">
                           {product.name}
@@ -324,7 +335,12 @@ function Cart() {
 
             <button
               onClick={handlePayment}
-              className="mt-6 mb-16 py-4 bg-[#238b45] text-[#ECD9BA] font-semibold rounded-xl hover:bg-orange-600 transition duration-300 ease-in-out transform hover:scale-105 shadow-lg flex items-center justify-center"
+              disabled={!profile}
+              className={`mt-6 mb-16 py-4 font-semibold rounded-xl transition duration-300 ease-in-out transform hover:scale-105 shadow-lg flex items-center justify-center ${
+                !profile
+                  ? "bg-gray-500 text-gray-300 cursor-not-allowed"
+                  : "bg-[#238b45] text-[#ECD9BA] hover:bg-orange-600"
+              }`}
             >
               Proceed to Payment
             </button>

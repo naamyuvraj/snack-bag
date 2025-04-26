@@ -19,7 +19,7 @@ export default function Homepage() {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
-    }, 8000);
+    }, 10000);
     return () => clearInterval(interval);
   }, []);
 
