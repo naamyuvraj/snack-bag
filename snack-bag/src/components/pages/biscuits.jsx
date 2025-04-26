@@ -39,7 +39,7 @@ export default function Biscuits() {
 
   return (
     <>
-      <div className="pb-15 bg-gradient-to-r from-[#000000] to-[#3c3c3c] pt-7 h-screen">
+      <div className="pb-15 bg-gradient-to-r from-[#000000] to-[#3c3c3c] pt-7 min-h-screen">
       {/* <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt- mb- gap-2 "> */}
         <nav className="pb-5 flex justify-between px-6 items-center ">
           <IoChevronBackCircleOutline
@@ -56,7 +56,7 @@ export default function Biscuits() {
       <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
 
         
-      <div className="pt-10 w-[95%] m-auto max-w-7xl grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
+      <div className="pt-10 w-[90%] m-auto max-w-7xl grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
           {products.map((item) => (
             <NewSnack
               key={item.id}

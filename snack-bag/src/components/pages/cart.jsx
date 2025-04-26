@@ -234,7 +234,7 @@ function Cart() {
   return (
     <div
       style={{ fontFamily: "Poppins, sans-serif" }}
-      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-2 w-full h-full"
+      className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-2 w-full min-h-screen"
     >
       <div className="md:w-full w-[400px] rounded-xl bg-gradient-to-r from-[#050505] to-[#3c3c3c] mx-auto flex flex-col h-screen mt- pl-3 pr-3">
         <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-6">

@@ -54,7 +54,7 @@ export default function Snacks() {
       <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
 
       
-      <div className="pt-10 w-[95%] m-auto max-w-7xl grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 justify-items-center">
+      <div className="pt-10 w-[90%] m-auto max-w-7xl grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
         {products.map((item) => (
           <NewSnack
             key={item.id}
