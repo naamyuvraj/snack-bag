@@ -3,7 +3,7 @@ import UserContext from "./UserContext";
 import { supabase } from "./supabaseClient";
 
 export function UserProvider({ children }) {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
 
   useEffect(() => {
     const getUser = async () => {
