@@ -17,14 +17,15 @@ import AboutUs from "./components/policypages/AboutUs.jsx";
 import ContactUs from "./components/policypages/ContactUs.jsx";
 import ScrollToTop from "./ScrollToTop.jsx";
 import ShippingAndDelivery from "./components/policypages/shipment.jsx";
-
+import Closed from "./components/pages/Closed.jsx";
 function App() {
   return (
     <div>
       {/* Add ScrollToTop component to reset scroll position on route change */}
       <ScrollToTop />
       <Routes>
-        <Route path="/" element={<Homepage />} />
+        <Route path="/" element={<Closed />} />
+        {/* <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/history" element={<OrderHistory />} />
@@ -40,7 +41,7 @@ function App() {
         <Route path="/terms" element={<TermsAndCond />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/shipment" element={<ShippingAndDelivery />} />
+        <Route path="/shipment" element={<ShippingAndDelivery />} /> */}
       </Routes>
     </div>
   );
