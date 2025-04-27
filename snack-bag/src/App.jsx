@@ -24,8 +24,8 @@ function App() {
       {/* Add ScrollToTop component to reset scroll position on route change */}
       <ScrollToTop />
       <Routes>
-       {/* <Route path="/closed" element={<Closed />} />*/}
-         <Route path="/" element={<Homepage />} />
+       <Route path="/closed" element={<Closed />} />
+         {/* <Route path="/" element={<Homepage />} />
         <Route path="/login" element={<Login />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/history" element={<OrderHistory />} />
@@ -41,7 +41,7 @@ function App() {
         <Route path="/terms" element={<TermsAndCond />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/shipment" element={<ShippingAndDelivery />} />
+        <Route path="/shipment" element={<ShippingAndDelivery />} /> */}
       </Routes>
     </div>
   );
