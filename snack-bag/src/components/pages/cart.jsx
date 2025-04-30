@@ -131,7 +131,7 @@ function Cart() {
 
     const { data: sessionData } = await supabase.auth.getSession();
     const accessToken = sessionData?.session?.access_token;
-
+    setLoading(true);
     try {
       const res = await fetch(
         "https://ettqxkemkniooiqstkou.supabase.co/functions/v1/create-order",
@@ -144,7 +144,7 @@ function Cart() {
           body: JSON.stringify({ amount: amountTopay * 100 }),
         }
       );
-
+      setLoading(false);
       const orderData = await res.json();
       if (orderData.error) throw new Error(orderData.error);
 
