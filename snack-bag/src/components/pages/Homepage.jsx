@@ -97,7 +97,17 @@ export default function Homepage() {
             ))}
           </div>
         </div>
+        <br />
+        {/* <hr className="border-[#ECD9BA] w-[95%] m-auto border-t-dashed" /> */}
         <div className="mx-5">
+          <Banner />
+        </div>
+        <br />
+        {/* <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" /> */}
+        
+        <div className="mx-5">
+        <h2 className="text-2xl text-[#ECD9BA] mx-9">Cateogries</h2>
+
           <Cards />
         </div>
         <br />
