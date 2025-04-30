@@ -112,13 +112,13 @@ export default function NewSnack({ id, name, image, price, user_id }) {
       style={{ fontFamily: "Poppins, sans-serif" }}
     >
       <img
-        className="rounded-xl w-full h-40 object-cover"
+        className="rounded-xl w-full h-40 object-cover mb-4"
         src={image}
         alt={name}
       />
 
-      <div className="w-full flex justify-center mt-1">
-        <h5 className="text-lg font-semibold/ tracking-tight text-[#ECD9BA]">
+      <div className="w-full flex justify-center  mb-1">
+        <h5 className="text-sm font-semibold/ tracking-tight text-[#ECD9BA]">
           {name}
         </h5>
       </div>
