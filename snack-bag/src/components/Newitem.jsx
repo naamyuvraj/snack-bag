@@ -118,7 +118,7 @@ export default function NewSnack({ id, name, image, price, user_id }) {
       />
 
       <div className="w-full flex justify-center  mb-1">
-        <h5 className="text-sm font-semibold/ tracking-tight text-[#ECD9BA]">
+        <h5 className="text-sm font-semibold tracking-tight text-[#ECD9BA]">
           {name}
         </h5>
       </div>
