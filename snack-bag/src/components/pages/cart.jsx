@@ -167,7 +167,7 @@ function Cart() {
             return;
           }
 
-          alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}`);
+          alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}.Thank you for your order! Please collect it from Room 327.`);
 
           const { error: insertError } = await supabase.from("orders_razorpay").insert([
             {
@@ -217,7 +217,7 @@ function Cart() {
             }
           }
 
-          alert("Thank you for your order! Please collect it from Room 315.");
+          // alert("Thank you for your order! Please collect it from Room 327.");
           setCartItems([]);
           setAmountToPay(0);
           navigate("/history");

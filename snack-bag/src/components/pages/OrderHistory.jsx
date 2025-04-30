@@ -109,6 +109,7 @@ export default function OrderHistory() {
               key={order.id}
               className="flex flex-col bg-[#ECD9BA] opacity-85 p-6 m-4 border border-gray-200 rounded-xl shadow-xl hover:shadow-md transition"
             >
+              <p className="text-red-500 font-semibold">Please collect your order from room 327.</p>
               <div className="flex justify-between items-start m-4 gap-9">
                 <div className="bg-gray-50 p-3 shadow-md break-words w-[220px] h-[60px] overflow-y-auto rounded-xl text-gray-700 text-sm shadow-inner">
                   {Array.isArray(order.products) &&
