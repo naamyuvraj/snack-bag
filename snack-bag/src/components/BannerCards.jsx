@@ -118,7 +118,7 @@ export default function BannerCard({ id, name, image, price, user_id }) {
       />
 
       <div className="w-full flex justify-center mt-2">
-        <h5 className="text-lg tracking-tight text-[#ECD9BA]">
+        <h5 className="text-sm font-semibold tracking-tight text-[#ECD9BA]">
           {name}
         </h5>
       </div>
@@ -132,7 +132,7 @@ export default function BannerCard({ id, name, image, price, user_id }) {
           {stock > 0 && quantity === 0 ? (
             <button
               onClick={handleAddToCart}
-              className="inline-flex items-center gap-2 px-2 py-1 text-sm font-medium text-[#ECD9BA]  rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"
+              className="inline-flex items-center gap-2 px-2 py-1 text-sm font-medium text-[#ECD9BA]  rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 border border-[#ECD9BA]"
             >
               Add
             </button>
