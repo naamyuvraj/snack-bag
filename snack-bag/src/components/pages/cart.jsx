@@ -98,7 +98,10 @@ function Cart() {
     if (newQuantity < 1) {
       const confirmRemove = window.confirm("Remove this item from cart?");
       if (confirmRemove) {
-        const { error } = await supabase.from("carts").delete().eq("id", cartId);
+        const { error } = await supabase
+          .from("carts")
+          .delete()
+          .eq("id", cartId);
         if (!error) {
           setCartItems((prev) => prev.filter((item) => item.id !== cartId));
           const updatedTotal = cartItems.reduce((acc, item) => {
@@ -178,23 +181,26 @@ function Cart() {
             return;
           }
 
-
-          const { error: insertError } = await supabase.from("orders_razorpay").insert([
-            {
-              user_id: user.id,
-              amount: amountTopay,
-              payment_id: response.razorpay_payment_id,
-              user_name: profile?.name,
-              products: orderedProducts,
-            },
-          ]);
+          alert(
+            `Payment Success! Payment ID: ${response.razorpay_payment_id}. Thank you for your order! Please collect it from Room 327.`
+          );
+          const { error: insertError } = await supabase
+            .from("orders_razorpay")
+            .insert([
+              {
+                user_id: user.id,
+                amount: amountTopay,
+                payment_id: response.razorpay_payment_id,
+                user_name: profile?.name,
+                products: orderedProducts,
+              },
+            ]);
 
           if (insertError) {
             console.error("Insert order failed:", insertError);
             alert("Order couldn't be saved. Please contact support.");
             return;
           }
-          alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}. Thank you for your order! Please collect it from Room 327.`);
 
           await supabase.from("carts").delete().eq("user_id", user.id);
 
@@ -206,7 +212,10 @@ function Cart() {
               .single();
 
             if (fetchError) {
-              console.error(`Error fetching product ${item.product_id}:`, fetchError);
+              console.error(
+                `Error fetching product ${item.product_id}:`,
+                fetchError
+              );
               continue;
             }
 
@@ -224,7 +233,10 @@ function Cart() {
               .eq("id", item.product_id);
 
             if (updateError) {
-              console.error(`Error updating quantity for ${item.product_id}:`, updateError);
+              console.error(
+                `Error updating quantity for ${item.product_id}:`,
+                updateError
+              );
             }
           }
 
@@ -349,8 +361,9 @@ function Cart() {
               </div>
             )}
             <div className="text-center text-yellow-300 bg-yellow-800/40 rounded-xl px-4 py-3 mt-4 mt-1 animate-pulse">
-                ⚠️ Please don't go back or quit while the payment is being processed.
-              </div>
+              ⚠️ Please don't go back or quit while the payment is being
+              processed.
+            </div>
 
             <button
               onClick={handlePayment}
@@ -363,7 +376,6 @@ function Cart() {
             >
               Proceed to Payment
             </button>
-            
           </>
         )}
       </div>
