@@ -15,6 +15,17 @@ function Cart() {
   const [loading, setLoading] = useState(true);
   const [amountTopay, setAmountToPay] = useState(0);
   const [profile, setProfile] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const checkDevice = () => {
+      const userAgent = navigator.userAgent;
+      const isMobile = /Mobi|Android/i.test(userAgent);
+      setIsDesktop(!isMobile);
+    };
+
+    checkDevice();
+  }, []);
 
   useEffect(() => {
     if (user === undefined) return;
@@ -167,7 +178,7 @@ function Cart() {
             return;
           }
 
-          alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}.Thank you for your order! Please collect it from Room 327.`);
+          alert(`Payment Success! Payment ID: ${response.razorpay_payment_id}. Thank you for your order! Please collect it from Room 327.`);
 
           const { error: insertError } = await supabase.from("orders_razorpay").insert([
             {
@@ -217,7 +228,6 @@ function Cart() {
             }
           }
 
-          // alert("Thank you for your order! Please collect it from Room 327.");
           setCartItems([]);
           setAmountToPay(0);
           navigate("/history");
@@ -247,7 +257,7 @@ function Cart() {
       style={{ fontFamily: "Poppins, sans-serif" }}
       className="bg-gradient-to-r from-[#050505] to-[#3c3c3c] pt-2 w-full min-h-screen"
     >
-      <div className="md:w-full w-[400px] rounded-xl bg-gradient-to-r from-[#050505] to-[#3c3c3c] mx-auto flex flex-col h-screen pl-3 pr-3">
+      <div className="md:w-full w-[400px] rounded-xl bg-gradient-to-r from-[#050505] to-[#3c3c3c] mx-auto flex flex-col h-screen px-5">
         <div className="flex flex-row justify-between md:w-1/2 w-[230px] mt-5 mb-6">
           <div
             className="text-5xl text-[#ECD9BA]"
@@ -273,7 +283,7 @@ function Cart() {
                   <div className="flex rounded-xl justify-center items-center pt-2 pb-2 border border-[#ECD9BA]/90 shadow-xl">
                     <div className="flex justify-evenly pt-2 pb-2">
                       <div className="flex flex-col w-30 h-30 justify-between">
-                        <div className="text-lg text-[#238b45] break-words mt-3">
+                        <div className="text-sm font-semibold text-[#238b45] break-words mt-3">
                           {product.name}
                         </div>
                         <div className="flex items-center gap-3 mb-2">
@@ -333,6 +343,15 @@ function Cart() {
               </div>
             </div>
 
+            {isDesktop && (
+              <div className="text-center text-yellow-300 bg-yellow-800/40 rounded-xl px-4 py-3 mt-4 mb-2">
+                ⚠️ For the best payment experience, please use your phone.
+              </div>
+            )}
+            <div className="text-center text-yellow-300 bg-yellow-800/40 rounded-xl px-4 py-3 mt-4 mt-1 animate-pulse">
+                ⚠️ Please don't go back or quit while the payment is being processed.
+              </div>
+
             <button
               onClick={handlePayment}
               disabled={!profile}
@@ -344,6 +363,7 @@ function Cart() {
             >
               Proceed to Payment
             </button>
+            
           </>
         )}
       </div>

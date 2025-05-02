@@ -31,7 +31,7 @@ export default function Banner() {
   useEffect(() => {
     const interval = setInterval(() => {
       handleNext();
-    }, 3000);
+    }, 4500);
     return () => clearInterval(interval);
   }, [products]);
 

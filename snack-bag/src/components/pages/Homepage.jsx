@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Cards from "../cards";
-import { ShoppingCart, SquareUserRound } from "lucide-react";
+import { ShoppingCart, SquareUserRound, MapPin, MonitorSmartphone } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import Famous from "./Famous";
 import Footer from "./footer";
 import Banner from "./banner";
-import {MapPin} from "lucide-react";
+
 const slides = [
   "https://www.youtube.com/embed/kpHBxLqkikw",
   "https://www.youtube.com/embed/iUIZcZceZf0",
@@ -15,7 +15,19 @@ const slides = [
 
 export default function Homepage() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 768);
+    };
+
+    handleResize(); // check on mount
+    window.addEventListener("resize", handleResize); // update on resize
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => (prevIndex + 1) % slides.length);
@@ -44,8 +56,22 @@ export default function Homepage() {
             onClick={() => navigate("/cart")}
           />
         </nav>
+
+        {/* ⚠️ Desktop Warning */}
+        {isDesktop && (
+          <div className="flex items-center justify-center bg-yellow-300 text-black py-2 mb-3">
+            <MonitorSmartphone className="mr-2 w-5 h-5 text-yellow-800" />
+            <p className="text-sm font-medium text-yellow-800">
+              Please use your mobile phone for better experience.
+            </p>
+          </div>
+        )}
+
         <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" />
-        <div className="flex justify- items-center bg-[#ECD9BA] p-1 opacity-[75%] w-[95%] m-auto"><MapPin className="w-7 h-7 text-[#238b45] mt- mx-4"/><p className="text-[#238b45] mt-">Your Space Hostel, Lohegaon, Pune</p></div>
+        <div className="flex items-center bg-[#ECD9BA] p-1 opacity-[75%] w-[95%] m-auto">
+          <MapPin className="w-7 h-7 text-[#238b45] mx-4" />
+          <p className="text-[#238b45]">Your Space Hostel, Lohegaon, Pune</p>
+        </div>
         <br />
         <div className="mr-5 mb-2">
           <h1 className="text-left text-4xl font-semibold text-[#238b45] ml-6">
@@ -98,20 +124,15 @@ export default function Homepage() {
           </div>
         </div>
         <br />
-        {/* <hr className="border-[#ECD9BA] w-[95%] m-auto border-t-dashed" /> */}
         <div className="mx-5">
           <Banner />
         </div>
         <br />
-        {/* <hr className="border-[#ECD9BA] w-[95%] m-auto border-1" /> */}
-        
         <div className="mx-5">
-        <h2 className="text-2xl text-[#ECD9BA] mx-9">Cateogries</h2>
-
+          <h2 className="text-2xl text-[#ECD9BA] mx-9">Cateogries</h2>
           <Cards />
         </div>
         <br />
-
         <Footer />
       </div>
     </>
